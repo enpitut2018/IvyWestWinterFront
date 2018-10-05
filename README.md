@@ -32,3 +32,12 @@ $ react-natvie run-android
 ```
 
 変なエラーが起きたら`react-native start --reset-cache`で起動してみるといいかも
+
+
+## 参考リンク
+
+* 主な使用ライブラリ
+
+  * [React Navigation · Routing and navigation for your React Native apps](https://reactnavigation.org/)
+
+  * [NativeBase | Essential cross-platform UI components for React Native](https://nativebase.io/)

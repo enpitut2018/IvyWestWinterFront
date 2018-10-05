@@ -1,48 +1,42 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
+import { createBottomTabNavigator } from "react-navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
+import DownloadPhotosScreen from "./src/components/DownloadPhotosScreen";
+import CameraScreen from "./src/components/CameraScreen";
+import UploadPhotosScreen from "./src/components/UploadPhotosScreen";
 
-const instructions = Platform.select({
-  ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
-  android:
-    "Double tap R on your keyboard to reload,\n" +
-    "Shake or press menu button for dev menu"
-});
-
-export default class App extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
+export default createBottomTabNavigator(
+  {
+    DownloadPhotos: {
+      screen: DownloadPhotosScreen,
+      navigationOptions: {
+        title: "ダウンロード",
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon size={20} name="download" color="#999" />
+        )
+      }
+    },
+    Camera: {
+      screen: CameraScreen,
+      navigationOptions: {
+        title: "カメラ",
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon size={20} name="camera" color="#999" />
+        )
+      }
+    },
+    UploadPhotos: {
+      screen: UploadPhotosScreen,
+      navigationOptions: {
+        title: "アップロード",
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon size={20} name="upload" color="#999" />
+        )
+      }
+    }
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
+  {
+    initialRouteName: "DownloadPhotos"
   }
-});
+);

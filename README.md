@@ -41,3 +41,5 @@ $ react-natvie run-android
   * [React Navigation · Routing and navigation for your React Native apps](https://reactnavigation.org/)
 
   * [NativeBase | Essential cross-platform UI components for React Native](https://nativebase.io/)
+
+  * [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons#icon-component)

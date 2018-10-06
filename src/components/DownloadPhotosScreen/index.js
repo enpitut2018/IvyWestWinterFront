@@ -8,7 +8,7 @@ class DownloadPhotosScreen extends Component {
     headerTitle: "ダウンロード",
     headerLeft: (
       <Icon
-        style={{ marginLeft: 20 }}
+        style={{ marginLeft: 10 }}
         size={23}
         name="camera"
         color="#999"

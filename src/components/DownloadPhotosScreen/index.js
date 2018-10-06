@@ -8,8 +8,8 @@ class DownloadPhotosScreen extends Component {
     headerTitle: "ダウンロード",
     headerLeft: (
       <Icon
-        style={{ marginLeft: 10 }}
-        size={20}
+        style={{ marginLeft: 20 }}
+        size={23}
         name="camera"
         color="#999"
         onPress={() => navigation.navigate("Camera")}

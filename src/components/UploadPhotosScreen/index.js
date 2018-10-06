@@ -9,7 +9,7 @@ class UploadPhotosScreen extends Component {
     headerLeft: (
       <Icon
         style={{ marginLeft: 10 }}
-        size={20}
+        size={23}
         name="camera"
         color="#999"
         onPress={() => navigation.navigate("Camera")}

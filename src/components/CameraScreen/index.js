@@ -9,7 +9,7 @@ export default class CameraScreen extends Component {
     headerTitle: "写真撮影",
     headerRight: (
       <Icon
-        style={{ marginRight: 10 }}
+        style={{ marginRight: 20 }}
         size={20}
         name="chevron-right"
         color="#000"

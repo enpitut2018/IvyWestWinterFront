@@ -1,8 +1,22 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "react-navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 class UploadPhotosScreen extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: "ダウンロード",
+    headerLeft: (
+      <Icon
+        style={{ marginLeft: 10 }}
+        size={20}
+        name="camera"
+        color="#999"
+        onPress={() => navigation.navigate("Camera")}
+      />
+    )
+  });
+
   render() {
     return (
       <View style={styles.container}>
@@ -11,9 +25,6 @@ class UploadPhotosScreen extends Component {
     );
   }
 }
-UploadPhotosScreen.navigationOptions = {
-  title: "アップロード"
-};
 
 export default createStackNavigator(
   {

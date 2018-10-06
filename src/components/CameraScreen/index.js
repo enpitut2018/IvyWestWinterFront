@@ -1,10 +1,23 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon, { Button } from "react-native-vector-icons/FontAwesome";
 import { RNCamera } from "react-native-camera";
 
-class CameraScreen extends Component {
+export default class CameraScreen extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: "写真撮影",
+    headerRight: (
+      <Icon
+        style={{ marginRight: 10 }}
+        size={20}
+        name="chevron-right"
+        color="#000"
+        onPress={() => navigation.goBack(null)}
+      />
+    )
+  });
+
   render() {
     return (
       <View style={styles.container}>
@@ -16,7 +29,9 @@ class CameraScreen extends Component {
           type={RNCamera.Constants.Type.back}
           flashMode={RNCamera.Constants.FlashMode.off}
           permissionDialogTitle={"カメラへのアクセスを求めています"}
-          permissionDialogMessage={""}
+          permissionDialogMessage={
+            "これによりアプリで写真を取ることができます。"
+          }
         />
         <View
           style={{ flex: 0, flexDirection: "row", justifyContent: "center" }}
@@ -36,7 +51,8 @@ class CameraScreen extends Component {
     if (this.camera) {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
-      let json = { data: data };
+      let json = { data: data.base64 };
+      console.log(json);
       // @TODO APIとの接続を行う
       // fetch("/photo", {
       //   method: "POST",
@@ -52,18 +68,6 @@ class CameraScreen extends Component {
     }
   };
 }
-CameraScreen.navigationOptions = {
-  title: "カメラ"
-};
-
-export default createStackNavigator(
-  {
-    Camera: { screen: CameraScreen }
-  },
-  {
-    initialRouteName: "Camera"
-  }
-);
 
 const styles = StyleSheet.create({
   container: {

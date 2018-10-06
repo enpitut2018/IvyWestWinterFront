@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 class UploadPhotosScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: "ダウンロード",
+    headerTitle: "アップロード",
     headerLeft: (
       <Icon
         style={{ marginLeft: 10 }}

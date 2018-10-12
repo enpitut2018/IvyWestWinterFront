@@ -1,22 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { createStackNavigator } from "react-navigation";
-import Icon from "react-native-vector-icons/FontAwesome";
 
-class DownloadPhotosScreen extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: "ダウンロード",
-    headerLeft: (
-      <Icon
-        style={{ marginLeft: 10 }}
-        size={23}
-        name="camera"
-        color="#999"
-        onPress={() => navigation.navigate("Camera")}
-      />
-    )
-  });
-
+export default class DownloadPhotosScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -25,15 +10,6 @@ class DownloadPhotosScreen extends Component {
     );
   }
 }
-
-export default createStackNavigator(
-  {
-    DownloadPhotos: { screen: DownloadPhotosScreen }
-  },
-  {
-    initialRouteName: "DownloadPhotos"
-  }
-);
 
 const styles = StyleSheet.create({
   container: {

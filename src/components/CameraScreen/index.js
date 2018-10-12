@@ -6,16 +6,7 @@ import { RNCamera } from "react-native-camera";
 
 export default class CameraScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: "写真撮影",
-    headerRight: (
-      <Icon
-        style={{ marginRight: 20 }}
-        size={20}
-        name="chevron-right"
-        color="#000"
-        onPress={() => navigation.goBack(null)}
-      />
-    )
+    headerTitle: "写真撮影"
   });
 
   render() {

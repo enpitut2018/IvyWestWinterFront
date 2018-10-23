@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import {
   Button,
   Container,
@@ -17,7 +17,7 @@ export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mode: "signin", // or signup
+      mode: "signin", // signin or signup
       userId: "",
       pass: ""
     };
@@ -31,29 +31,21 @@ export default class LoginScreen extends Component {
             <Title>サインイン</Title>
           </Body>
         </Header>
-        <Content>
-          <Form>
-            <Item>
-              <Label>Username</Label>
-              <Input
-                onChageText={text => this.setState({ userId: text })}
-                value={this.state.userId}
-              />
-            </Item>
-            <Item>
-              <Label>Password</Label>
-              <Input
-                onChageText={text => this.setState({ pass: text })}
-                value={this.state.pass}
-              />
-            </Item>
-          </Form>
-          <Button block>
-            <Text>Sign in</Text>
-          </Button>
-          <Text>{this.state.userId}</Text>
-          <Text>{this.state.pass}</Text>
-        </Content>
+        <TextInput
+          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+          onChangeText={text => this.setState({ userId: text })}
+          value={this.state.text}
+          placeholder="ユーザーID"
+        />
+        <TextInput
+          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+          onChangeText={text => this.setState({ pass: text })}
+          value={this.state.text}
+          placeholder="パスワード"
+        />
+        <Button block>
+          <Text>Sign in</Text>
+        </Button>
       </Container>
     );
   }

@@ -1,9 +1,4 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
-import {
-  createBottomTabNavigator,
-  createStackNavigator
-} from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DownloadPhotosScreen from "./src/components/DownloadPhotosScreen";
 import CameraScreen from "./src/components/CameraScreen";

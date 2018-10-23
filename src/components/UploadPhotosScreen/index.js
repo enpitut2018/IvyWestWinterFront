@@ -8,8 +8,7 @@ export default class UploadPhotosScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      photos: [],
-      source: ""
+      photos: []
     };
   }
 
@@ -26,7 +25,6 @@ export default class UploadPhotosScreen extends Component {
       .then(response => response.json())
       .then(json => {
         this.setState({ photos: json });
-        this.setState({ source: json[1].Source });
       })
       .catch(error => console.log(error));
   }

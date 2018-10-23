@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default class UploadPhotosScreen extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ export default class UploadPhotosScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View>
           {this.state.photos.map((photo, index) => {
             return (
@@ -45,7 +45,7 @@ export default class UploadPhotosScreen extends Component {
             );
           })}
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -53,8 +53,6 @@ export default class UploadPhotosScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "#F5FCFF"
   },
   sampel: {

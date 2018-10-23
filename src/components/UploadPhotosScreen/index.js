@@ -5,24 +5,25 @@ export default class UploadPhotosScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      photos: []
+      photos: [],
+      source: ""
     };
   }
 
   componentWillMount() {
-    fetch("https://0c550ec9.ngrok.io/uploads", {
+    fetch("http://localhost:8080/uploads", {
       method: "GET",
       mode: "no-cors",
       credentials: "include",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        Authorization: "xxxxxxxxxxxxxxxxxxxxx" // TODO tokenの設定
+        Authorization: "6f8179afb5ccdd780d4681febfeaffb1" // TODO tokenの設定
       }
     })
       .then(response => response.json())
       .then(json => {
-        console.log(json);
         this.setState({ photos: json });
+        this.setState({ source: json[1].Source });
       })
       .catch(error => console.log(error));
   }
@@ -30,17 +31,20 @@ export default class UploadPhotosScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>{JSON.stringify(this.state.photos)}</Text>
-        {/* {this.state.photos.forEach(p => {
-          <Image
-            style={{
-              width: 100,
-              height: 100,
-              resizeMode: Image.resizeMode.contain
-            }}
-            source={{ uri: "data:image/png;base64," + p.Source }}
-          />;
-        })} */}
+        <View>
+          {this.state.photos.map((photo, index) => {
+            return (
+              <Image
+                key={index}
+                style={{
+                  width: 100,
+                  height: 100
+                }}
+                source={{ uri: "data:image/jpeg;base64," + photo.Source }}
+              />
+            );
+          })}
+        </View>
       </View>
     );
   }

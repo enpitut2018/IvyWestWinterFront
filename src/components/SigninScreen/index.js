@@ -7,6 +7,7 @@ import {
   View
 } from "react-native";
 import { Header, Body, Title } from "native-base";
+import { baseURL } from "../../common/const";
 
 export default class LoginScreen extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ export default class LoginScreen extends Component {
     console.log(body);
     if (this.state.mode === "signin") {
       // ログイン
-      fetch("http://localhost:8080/signin", {
+      fetch(baseURL + "/signin", {
         method: "POST",
         mode: "cors",
         headers: {
@@ -42,7 +43,7 @@ export default class LoginScreen extends Component {
         .catch(error => console.log(error));
     } else {
       // サインアップ
-      fetch("http://localhost:8080/signup", {
+      fetch(baseURL + "/signup", {
         method: "POST",
         mode: "cors",
         headers: {

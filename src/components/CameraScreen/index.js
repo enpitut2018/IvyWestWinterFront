@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import Icon, { Button } from "react-native-vector-icons/FontAwesome";
 import { RNCamera } from "react-native-camera";
+import { baseURL } from "../../common/const";
 
 export default class CameraScreen extends Component {
   // App.jsでCameraScreenにヘッダーを追加するとヘッダーが2重になってしまうため暫定ここで定義
@@ -46,7 +47,7 @@ export default class CameraScreen extends Component {
       const data = await this.camera.takePictureAsync(options);
       let json = { Source: data.base64 };
       console.log(json);
-      fetch("http://localhost:8080/photo", {
+      fetch(baseURL + "/photo", {
         method: "POST",
         mode: "no-cors", // @TODO これで良いか要検証
         credentials: "include",

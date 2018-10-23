@@ -7,7 +7,9 @@ import {
   View
 } from "react-native";
 import AutoHeightImage from "react-native-auto-height-image";
+import { baseURL } from "../../common/const";
 
+// 画面幅サイズを取得
 const { width } = Dimensions.get("window");
 
 export default class UploadPhotosScreen extends Component {
@@ -20,7 +22,7 @@ export default class UploadPhotosScreen extends Component {
 
   componentWillMount() {
     AsyncStorage.getItem("@IvyWest:token").then(token => {
-      fetch("http://localhost:8080/uploads", {
+      fetch(baseURL + "/uploads", {
         method: "GET",
         mode: "no-cors",
         credentials: "include",

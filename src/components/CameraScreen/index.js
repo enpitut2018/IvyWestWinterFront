@@ -5,6 +5,8 @@ import Icon, { Button } from "react-native-vector-icons/FontAwesome";
 import { RNCamera } from "react-native-camera";
 
 export default class CameraScreen extends Component {
+  // App.jsでCameraScreenにヘッダーを追加するとヘッダーが2重になってしまうため暫定ここで定義
+  // TODO 調査・修正
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "写真撮影"
   });
@@ -42,20 +44,24 @@ export default class CameraScreen extends Component {
     if (this.camera) {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
-      let json = { data: data.base64 };
+      let json = { Source: data.base64 };
       console.log(json);
-      // @TODO APIとの接続を行う
-      // fetch("/photo", {
-      //   method: "POST",
-      //   mode: "no-cors", // @TODO これで良いか要検証
-      //   credentials: "include"
-      // })
-      //   .then(response => response.json())
-      //   .then(json => {
-      //     // @TODO レスポンスによって処理を行う
-      //     console.log(json);
-      //   })
-      //   .catch(error => console.log(error));
+      fetch("http://localhost:8080/photo", {
+        method: "POST",
+        mode: "no-cors", // @TODO これで良いか要検証
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: "xxxxxxx" // TODO Tokenの設定
+        },
+        body: JSON.stringify(json)
+      })
+        .then(response => response.json())
+        .then(json => {
+          // @TODO レスポンスによって処理を行う
+          console.log(json);
+        })
+        .catch(error => console.log(error));
     }
   };
 }

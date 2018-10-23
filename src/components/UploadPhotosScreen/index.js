@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
+import AutoHeightImage from "react-native-auto-height-image";
+
+const { width } = Dimensions.get("window");
 
 export default class UploadPhotosScreen extends Component {
   constructor(props) {
@@ -34,12 +37,9 @@ export default class UploadPhotosScreen extends Component {
         <View>
           {this.state.photos.map((photo, index) => {
             return (
-              <Image
+              <AutoHeightImage
                 key={index}
-                style={{
-                  width: 100,
-                  height: 100
-                }}
+                width={width}
                 source={{ uri: "data:image/jpeg;base64," + photo.Source }}
               />
             );

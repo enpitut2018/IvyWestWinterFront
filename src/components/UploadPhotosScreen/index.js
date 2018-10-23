@@ -16,7 +16,7 @@ export default class UploadPhotosScreen extends Component {
       credentials: "include",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        Authorization: "xxxxxxxxxxxxxxxxxxxx" // TODO Tokenの設定
+        Authorization: "xxxxxxxxxxxxxxxxxxxxx" // TODO tokenの設定
       }
     })
       .then(response => response.json())

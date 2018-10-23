@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { AsyncStorage } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DownloadPhotosScreen from "./src/components/DownloadPhotosScreen";
 import CameraScreen from "./src/components/CameraScreen";
@@ -15,6 +16,11 @@ class App extends Component {
   }
 
   componentDidMount() {
+    AsyncStorage.getItem("@IvyWest:token").then(token => {
+      if (token !== null) {
+        this.setState({ isLogin: true });
+      }
+    });
     if (this.state.isLogin === false) {
       Actions.signin();
     }

@@ -24,23 +24,25 @@ export default class UploadPhotosScreen extends Component {
   }
 
   componentWillMount() {
-    url = baseURL + "uploads";
-    try {
-      const json = getFetchWithToken(url);
-      this.setState({ photos: json });
-    } catch (error) {
-      console.error(error);
-    }
+    url = baseURL + "/uploads";
+    getFetchWithToken(url)
+      .then(json => {
+        this.setState({ photos: json });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   reloadPhoto() {
-    url = baseURL + "uploads";
-    try {
-      const json = getFetchWithToken(url);
-      this.setState({ photos: json });
-    } catch (error) {
-      console.error(error);
-    }
+    url = baseURL + "/uploads";
+    getFetchWithToken(url)
+      .then(json => {
+        this.setState({ photos: json });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   render() {

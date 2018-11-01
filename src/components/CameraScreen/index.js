@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { AsyncStorage, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { RNCamera } from "react-native-camera";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { postFetchWithToken } from "../../models/fetchUtil";
-import { asyncStorageKeyPrefix, baseURL } from "../../libs/const";
+import { baseURL } from "../../libs/const";
 
 export default class CameraScreen extends Component {
   // App.jsでCameraScreenにヘッダーを追加するとヘッダーが2重になってしまうため暫定ここで定義
@@ -30,7 +31,7 @@ export default class CameraScreen extends Component {
           style={{ flex: 0, flexDirection: "row", justifyContent: "center" }}
         >
           <TouchableOpacity
-            onPress={() => this.takePicture}
+            onPress={() => this.takePicture()}
             style={styles.capture}
           >
             <Icon size={20} name="camera" color="#999" />
@@ -45,7 +46,13 @@ export default class CameraScreen extends Component {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
       let body = { source: data.base64 };
-      postFetchWithToken(baseURL + "uploads", body);
+      postFetchWithToken(baseURL + "/uploads", body)
+        .then(json => {
+          console.log(json);
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   };
 }

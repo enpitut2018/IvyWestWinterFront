@@ -7,6 +7,7 @@ import UploadPhotosScreen from "./src/components/UploadPhotosScreen";
 import UserScreen from "./src/components/UserScreen";
 import SigninScreen from "./src/components/SigninScreen";
 import { Actions, Router, Scene, Tabs, Stack } from "react-native-router-flux";
+import { asyncStorageKeyPrefix } from "./src/libs/const";
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    AsyncStorage.getItem("@IvyWest:token").then(token => {
+    AsyncStorage.getItem(asyncStorageKeyPrefix + "token").then(token => {
       if (token !== null) {
         this.setState({ isLogin: true });
       }

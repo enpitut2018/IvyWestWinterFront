@@ -1,17 +1,9 @@
 import React, { Component } from "react";
-import {
-  AsyncStorage,
-  Button,
-  StyleSheet,
-  TextInput,
-  View
-} from "react-native";
+import { Button, StyleSheet, TextInput, View } from "react-native";
 import { Header, Body, Title } from "native-base";
-import { postFetch } from "../../models/fetchUtil";
-import { signin, signup } from "../../models/signup";
-import { baseURL } from "../../libs/const";
+import { signin, signup } from "../../models/auth";
 
-export default class LoginScreen extends Component {
+export default class AuthScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {

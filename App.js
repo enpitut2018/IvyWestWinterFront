@@ -5,7 +5,7 @@ import DownloadPhotosScreen from "./src/components/DownloadPhotosScreen";
 import CameraScreen from "./src/components/CameraScreen";
 import UploadPhotosScreen from "./src/components/UploadPhotosScreen";
 import UserScreen from "./src/components/UserScreen";
-import SigninScreen from "./src/components/SigninScreen";
+import AuthScreen from "./src/components/AuthScreen";
 import { Actions, Router, Scene, Tabs, Stack } from "react-native-router-flux";
 import { asyncStorageKeyPrefix } from "./src/libs/const";
 
@@ -24,7 +24,7 @@ class App extends Component {
       }
     });
     if (this.state.isLogin === false) {
-      Actions.signin();
+      Actions.auth();
     }
   }
 
@@ -83,7 +83,7 @@ class App extends Component {
               )}
             />
           </Tabs>
-          <Scene key="signin" component={SigninScreen} />
+          <Scene key="auth" component={AuthScreen} />
           <Scene key="camera" component={CameraScreen} />
         </Scene>
       </Router>

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import AutoHeightImage from "react-native-auto-height-image";
 import { Actions } from "react-native-router-flux";
+import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 
 // 画面幅サイズを取得
@@ -23,41 +24,23 @@ export default class UploadPhotosScreen extends Component {
   }
 
   componentWillMount() {
-    AsyncStorage.getItem("@IvyWest:token").then(token => {
-      fetch(baseURL + "/uploads", {
-        method: "GET",
-        mode: "no-cors",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: token
-        }
-      })
-        .then(response => response.json())
-        .then(json => {
-          this.setState({ photos: json });
-        })
-        .catch(error => console.log(error));
-    });
+    url = baseURL + "uploads";
+    try {
+      const json = getFetchWithToken(url);
+      this.setState({ photos: json });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   reloadPhoto() {
-    AsyncStorage.getItem("@IvyWest:token").then(token => {
-      fetch(baseURL + "/uploads", {
-        method: "GET",
-        mode: "no-cors",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: token
-        }
-      })
-        .then(response => response.json())
-        .then(json => {
-          this.setState({ photos: json });
-        })
-        .catch(error => console.log(error));
-    });
+    url = baseURL + "uploads";
+    try {
+      const json = getFetchWithToken(url);
+      this.setState({ photos: json });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   render() {

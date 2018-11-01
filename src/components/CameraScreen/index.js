@@ -1,15 +1,8 @@
 import React, { Component } from "react";
-import {
-  AsyncStorage,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from "react-native";
-import { createStackNavigator } from "react-navigation";
-import Icon, { Button } from "react-native-vector-icons/FontAwesome";
+import { AsyncStorage, StyleSheet, TouchableOpacity, View } from "react-native";
 import { RNCamera } from "react-native-camera";
-import { baseURL } from "../../libs/const";
+import { postFetchWithToken } from "../../models/fetchUtil";
+import { asyncStorageKeyPrefix, baseURL } from "../../libs/const";
 
 export default class CameraScreen extends Component {
   // App.jsでCameraScreenにヘッダーを追加するとヘッダーが2重になってしまうため暫定ここで定義
@@ -37,7 +30,7 @@ export default class CameraScreen extends Component {
           style={{ flex: 0, flexDirection: "row", justifyContent: "center" }}
         >
           <TouchableOpacity
-            onPress={this.takePicture.bind(this)}
+            onPress={() => this.takePicture}
             style={styles.capture}
           >
             <Icon size={20} name="camera" color="#999" />
@@ -52,24 +45,7 @@ export default class CameraScreen extends Component {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
       let body = { source: data.base64 };
-      console.log(body);
-      AsyncStorage.getItem("@IvyWest:token").then(token => {
-        fetch(baseURL + "/uploads", {
-          method: "POST",
-          mode: "no-cors",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            Authorization: token
-          },
-          body: JSON.stringify(body)
-        })
-          .then(response => response.json())
-          .then(json => {
-            this.setState({ photos: json });
-          })
-          .catch(error => console.log(error));
-      });
+      postFetchWithToken(baseURL + "uploads", body);
     }
   };
 }

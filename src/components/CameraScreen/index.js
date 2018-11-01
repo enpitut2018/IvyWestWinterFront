@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  AsyncStorage,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
 import { createStackNavigator } from "react-navigation";
 import Icon, { Button } from "react-native-vector-icons/FontAwesome";
 import { RNCamera } from "react-native-camera";
@@ -45,24 +51,25 @@ export default class CameraScreen extends Component {
     if (this.camera) {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
-      let json = { Source: data.base64 };
-      console.log(json);
-      fetch(baseURL + "/photo", {
-        method: "POST",
-        mode: "no-cors", // @TODO これで良いか要検証
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: "xxxxxxx" // TODO Tokenの設定
-        },
-        body: JSON.stringify(json)
-      })
-        .then(response => response.json())
-        .then(json => {
-          // @TODO レスポンスによって処理を行う
-          console.log(json);
+      let body = { source: data.base64 };
+      console.log(body);
+      AsyncStorage.getItem("@IvyWest:token").then(token => {
+        fetch(baseURL + "/uploads", {
+          method: "POST",
+          mode: "no-cors",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: token
+          },
+          body: JSON.stringify(body)
         })
-        .catch(error => console.log(error));
+          .then(response => response.json())
+          .then(json => {
+            this.setState({ photos: json });
+          })
+          .catch(error => console.log(error));
+      });
     }
   };
 }

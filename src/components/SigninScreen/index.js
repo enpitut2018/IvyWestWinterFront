@@ -7,7 +7,7 @@ import {
   View
 } from "react-native";
 import { Header, Body, Title } from "native-base";
-import { baseURL } from "../../common/const";
+import { baseURL } from "../../libs/const";
 
 export default class LoginScreen extends Component {
   constructor(props) {

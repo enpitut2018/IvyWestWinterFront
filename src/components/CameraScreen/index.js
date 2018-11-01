@@ -9,7 +9,7 @@ import {
 import { createStackNavigator } from "react-navigation";
 import Icon, { Button } from "react-native-vector-icons/FontAwesome";
 import { RNCamera } from "react-native-camera";
-import { baseURL } from "../../common/const";
+import { baseURL } from "../../libs/const";
 
 export default class CameraScreen extends Component {
   // App.jsでCameraScreenにヘッダーを追加するとヘッダーが2重になってしまうため暫定ここで定義

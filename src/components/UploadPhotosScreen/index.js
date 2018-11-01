@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import AutoHeightImage from "react-native-auto-height-image";
 import { Actions } from "react-native-router-flux";
-import { baseURL } from "../../common/const";
+import { baseURL } from "../../libs/const";
 
 // 画面幅サイズを取得
 const { width } = Dimensions.get("window");

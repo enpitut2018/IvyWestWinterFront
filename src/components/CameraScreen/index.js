@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { createStackNavigator } from "react-navigation";
-import Icon, { Button } from "react-native-vector-icons/FontAwesome";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { RNCamera } from "react-native-camera";
-import { baseURL } from "../../common/const";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { postFetchWithToken } from "../../models/fetchUtil";
+import { baseURL } from "../../libs/const";
 
 export default class CameraScreen extends Component {
   // App.jsでCameraScreenにヘッダーを追加するとヘッダーが2重になってしまうため暫定ここで定義
@@ -31,7 +31,7 @@ export default class CameraScreen extends Component {
           style={{ flex: 0, flexDirection: "row", justifyContent: "center" }}
         >
           <TouchableOpacity
-            onPress={this.takePicture.bind(this)}
+            onPress={() => this.takePicture()}
             style={styles.capture}
           >
             <Icon size={20} name="camera" color="#999" />
@@ -45,24 +45,14 @@ export default class CameraScreen extends Component {
     if (this.camera) {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
-      let json = { Source: data.base64 };
-      console.log(json);
-      fetch(baseURL + "/photo", {
-        method: "POST",
-        mode: "no-cors", // @TODO これで良いか要検証
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: "xxxxxxx" // TODO Tokenの設定
-        },
-        body: JSON.stringify(json)
-      })
-        .then(response => response.json())
+      let body = { source: data.base64 };
+      postFetchWithToken(baseURL + "/uploads", body)
         .then(json => {
-          // @TODO レスポンスによって処理を行う
           console.log(json);
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          console.error(error);
+        });
     }
   };
 }

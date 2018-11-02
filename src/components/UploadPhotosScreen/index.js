@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import {
   AsyncStorage,
+  Button,
   Dimensions,
   ScrollView,
   StyleSheet,
   View
 } from "react-native";
 import AutoHeightImage from "react-native-auto-height-image";
-import { baseURL } from "../../common/const";
+import { Actions } from "react-native-router-flux";
+import { getFetchWithToken } from "../../models/fetchUtil";
+import { baseURL } from "../../libs/const";
 
 // 画面幅サイズを取得
 const { width } = Dimensions.get("window");
@@ -21,22 +24,25 @@ export default class UploadPhotosScreen extends Component {
   }
 
   componentWillMount() {
-    AsyncStorage.getItem("@IvyWest:token").then(token => {
-      fetch(baseURL + "/uploads", {
-        method: "GET",
-        mode: "no-cors",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: token
-        }
+    url = baseURL + "/uploads";
+    getFetchWithToken(url)
+      .then(json => {
+        this.setState({ photos: json });
       })
-        .then(response => response.json())
-        .then(json => {
-          this.setState({ photos: json });
-        })
-        .catch(error => console.log(error));
-    });
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  reloadPhoto() {
+    url = baseURL + "/uploads";
+    getFetchWithToken(url)
+      .then(json => {
+        this.setState({ photos: json });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -48,11 +54,16 @@ export default class UploadPhotosScreen extends Component {
               <AutoHeightImage
                 key={index}
                 width={width / 3}
-                source={{ uri: "data:image/jpeg;base64," + photo.Source }}
+                source={{ uri: photo.Url }}
               />
             );
           })}
         </View>
+        <Button
+          onPress={() => this.reloadPhoto()}
+          title="Reload"
+          color="#841584"
+        />
       </ScrollView>
     );
   }

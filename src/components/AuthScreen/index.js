@@ -1,15 +1,9 @@
 import React, { Component } from "react";
-import {
-  AsyncStorage,
-  Button,
-  StyleSheet,
-  TextInput,
-  View
-} from "react-native";
+import { Button, StyleSheet, TextInput, View } from "react-native";
 import { Header, Body, Title } from "native-base";
-import { baseURL } from "../../common/const";
+import { signin, signup } from "../../models/auth";
 
-export default class LoginScreen extends Component {
+export default class AuthScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,44 +14,20 @@ export default class LoginScreen extends Component {
   }
 
   onPushSubmit() {
-    let body = {
-      Userid: this.state.userId,
-      Password: this.state.pass
-    };
-    console.log(body);
     if (this.state.mode === "signin") {
       // ログイン
-      fetch(baseURL + "/signin", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(body)
-      })
-        .then(response => response.json())
-        .then(json => {
-          // ログイン完了処理
-          AsyncStorage.setItem("@IvyWest:token", json.Token);
-        })
-        .catch(error => console.log(error));
+      try {
+        signin(this.state.userId, this.state.pass);
+      } catch (error) {
+        console.error(error);
+      }
     } else {
       // サインアップ
-      fetch(baseURL + "/signup", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(body)
-      })
-        .then(response => response.json())
-        .then(json => {
-          console.log(json);
-          // サインアップ完了処理
-          AsyncStorage.setItem("@IvyWest:token", json.Token);
-        })
-        .catch(error => console.log(error));
+      try {
+        signup(this.state.userId, this.state.pass);
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 

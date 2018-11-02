@@ -9,6 +9,16 @@ import AuthScreen from "./src/components/AuthScreen";
 import { Actions, Router, Scene, Tabs, Stack } from "react-native-router-flux";
 import { asyncStorageKeyPrefix } from "./src/libs/const";
 
+const cameraIcon = () => (
+  <Icon
+    style={{ marginRight: 10 }}
+    size={23}
+    name="camera"
+    color="#999"
+    onPress={() => Actions.camera()}
+  />
+);
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -40,15 +50,7 @@ class App extends Component {
               component={DownloadPhotosScreen}
               tabBarLabel="ダウンロード"
               icon={() => <Icon size={20} name="download" color="#999" />}
-              renderRightButton={() => (
-                <Icon
-                  style={{ marginRight: 10 }}
-                  size={23}
-                  name="camera"
-                  color="#999"
-                  onPress={() => Actions.camera()}
-                />
-              )}
+              renderRightButton={cameraIcon}
             />
             <Scene
               key="uploads"
@@ -56,15 +58,7 @@ class App extends Component {
               component={UploadPhotosScreen}
               tabBarLabel="アップロード"
               icon={() => <Icon size={20} name="upload" color="#999" />}
-              renderRightButton={() => (
-                <Icon
-                  style={{ marginRight: 10 }}
-                  size={23}
-                  name="camera"
-                  color="#999"
-                  onPress={() => Actions.camera()}
-                />
-              )}
+              renderRightButton={cameraIcon}
             />
             <Scene
               key="user"
@@ -72,15 +66,7 @@ class App extends Component {
               component={UserScreen}
               tabBarLabel="ユーザー"
               icon={() => <Icon size={20} name="user" color="#999" />}
-              renderRightButton={() => (
-                <Icon
-                  style={{ marginRight: 10 }}
-                  size={23}
-                  name="camera"
-                  color="#999"
-                  onPress={() => Actions.camera()}
-                />
-              )}
+              renderRightButton={cameraIcon}
             />
           </Tabs>
           <Scene key="auth" component={AuthScreen} />

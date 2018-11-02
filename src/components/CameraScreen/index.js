@@ -6,12 +6,6 @@ import { postFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 
 export default class CameraScreen extends Component {
-  // App.jsでCameraScreenにヘッダーを追加するとヘッダーが2重になってしまうため暫定ここで定義
-  // TODO 調査・修正
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: "写真撮影"
-  });
-
   render() {
     return (
       <View style={styles.container}>

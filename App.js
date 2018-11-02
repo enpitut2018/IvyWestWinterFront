@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DownloadPhotosScreen from "./src/components/DownloadPhotosScreen";
 import CameraScreen from "./src/components/CameraScreen";
 import UploadPhotosScreen from "./src/components/UploadPhotosScreen";
 import UserScreen from "./src/components/UserScreen";
 import AuthScreen from "./src/components/AuthScreen";
-import { Actions, Router, Scene, Tabs, Stack } from "react-native-router-flux";
+import SigninScreen from "./src/components/SigninScreen";
+import SignupScreen from "./src/components/SignupScreen";
+import { Actions, Router, Scene, Tabs } from "react-native-router-flux";
 import { asyncStorageKeyPrefix } from "./src/libs/const";
 
 const cameraIcon = () => (
@@ -27,26 +29,23 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     AsyncStorage.getItem(asyncStorageKeyPrefix + "token").then(token => {
       if (token !== null) {
         this.setState({ isLogin: true });
       }
     });
-    if (this.state.isLogin === false) {
-      Actions.auth();
-    }
   }
 
   render() {
     return (
       <Router>
         <Scene key="root" hideNavBar={true}>
-          <Tabs key="tab" swipeEnabled={true} animationEnabled={true}>
+          <Tabs key="tab">
             <Scene
               key="downloads"
               title="ダウンロード"
-              initial={true}
+              initial={this.state.isLogin == true}
               component={DownloadPhotosScreen}
               tabBarLabel="ダウンロード"
               icon={() => <Icon size={20} name="download" color="#999" />}
@@ -69,7 +68,11 @@ class App extends Component {
               renderRightButton={cameraIcon}
             />
           </Tabs>
-          <Scene key="auth" component={AuthScreen} />
+          <Scene key="auth" initial={this.state.isLogin == false}>
+            <Scene key="authHome" component={AuthScreen} />
+            <Scene key="signin" title="サインイン" component={SigninScreen} />
+            <Scene key="signup" title="サインアップ" component={SignupScreen} />
+          </Scene>
           <Scene key="camera" component={CameraScreen} />
         </Scene>
       </Router>

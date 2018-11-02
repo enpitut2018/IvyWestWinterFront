@@ -28,7 +28,7 @@ export function signup(userId, pass) {
     Userid: userId,
     Password: pass
   };
-  url = baseURL + "/signin";
+  url = baseURL + "/signup";
   fetch(url, {
     method: "POST",
     mode: "cors",
@@ -40,7 +40,8 @@ export function signup(userId, pass) {
     .then(response => response.json())
     .then(json => {
       // サインアップ完了処理
-      AsyncStorage.setItem(asyncStorageKeyPrefix + "token", json.Token);
+      // TODO Tokenが返ってくるようになったらTokenを保存する
+      AsyncStorage.setItem(asyncStorageKeyPrefix + "token", "");
     })
     .catch(error => console.log(error));
 }

@@ -1,19 +1,26 @@
 import React, { Component } from "react";
-import { AsyncStorage, Button, StyleSheet, View } from "react-native";
+import { AsyncStorage, StyleSheet, View } from "react-native";
+import { Button, Text } from "native-base";
+import { Actions } from "react-native-router-flux";
 
 export default class UserScreen extends Component {
   onPushSignout() {
-    AsyncStorage.removeItem("@IvyWest:token");
+    AsyncStorage.removeItem("@IvyWest:token").then(() => {
+      Actions.reset("auth");
+    });
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Button
+          block
+          warning
+          style={styles.button}
           onPress={() => this.onPushSignout()}
-          title="Sign out"
-          color="#841584"
-        />
+        >
+          <Text>Sign out</Text>
+        </Button>
       </View>
     );
   }
@@ -26,9 +33,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F5FCFF"
   },
-  sample: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
+  button: {
+    marginRight: 20,
+    marginLeft: 20,
+    marginBottom: 30
   }
 });

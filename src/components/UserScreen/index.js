@@ -1,11 +1,19 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { AsyncStorage, Button, StyleSheet, View } from "react-native";
 
-export default class DownloadPhotosScreen extends Component {
+export default class UserScreen extends Component {
+  onPushSignout() {
+    AsyncStorage.removeItem("@IvyWest:token");
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.sample}>DownloadPhotosScreen</Text>
+        <Button
+          onPress={() => this.onPushSignout()}
+          title="Sign out"
+          color="#841584"
+        />
       </View>
     );
   }

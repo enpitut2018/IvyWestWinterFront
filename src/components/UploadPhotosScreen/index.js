@@ -26,7 +26,7 @@ export default class UploadPhotosScreen extends Component {
     url = baseURL + "/uploads";
     getFetchWithToken(url)
       .then(json => {
-        this.setState({ photos: json });
+        this.setState({ photos: json.reverse() });
       })
       .catch(error => {
         console.log(error);
@@ -38,7 +38,7 @@ export default class UploadPhotosScreen extends Component {
     url = baseURL + "/uploads";
     getFetchWithToken(url)
       .then(json => {
-        this.setState({ photos: json, refreshing: false });
+        this.setState({ photos: json.reverse(), refreshing: false });
       })
       .catch(error => {
         console.log(error);

@@ -1,23 +1,24 @@
 import React, { Component } from "react";
 import {
   StyleSheet,
-  Text,
   View,
-  Button,
   ScrollView,
+  RefreshControl,
   Dimensions
 } from "react-native";
 import AutoHeightImage from "react-native-auto-height-image";
 import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 
+// 画面幅サイズを取得
 const { width } = Dimensions.get("window");
 
 export default class DownloadPhotosScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      photos: []
+      photos: [],
+      refreshing: false,
     };
   }
 
@@ -25,20 +26,36 @@ export default class DownloadPhotosScreen extends Component {
     url = baseURL + "/downloads";
     getFetchWithToken(url).then(json => {
       this.setState({
-        photos: json
+        photos: json.reverse(),
+        refreshing: false,
       });
     }).catch(error => {
       console.log(error);
     });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.reloadPhoto();
+  }
+
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    this.reloadPhoto(); 
   }
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        // 引っ張って更新
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+            title={'引っ張って更新'}
+          />
+        }
+      >
         <View style={styles.photoView}>
           {this.state.photos.map((photo, index) => {
             return (
@@ -50,11 +67,6 @@ export default class DownloadPhotosScreen extends Component {
             );
           })}
         </View>
-        <Button
-          onPress={() => this.reloadPhoto()}
-          title="Reload"
-          color="#841584"
-        />
       </ScrollView>
     );
   }

@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import {
-  AsyncStorage,
-  Button,
   Dimensions,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   View
 } from "react-native";
 import AutoHeightImage from "react-native-auto-height-image";
-import { Actions } from "react-native-router-flux";
 import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 
@@ -19,7 +17,8 @@ export default class UploadPhotosScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      photos: []
+      photos: [],
+      refreshing: false
     };
   }
 
@@ -27,27 +26,36 @@ export default class UploadPhotosScreen extends Component {
     url = baseURL + "/uploads";
     getFetchWithToken(url)
       .then(json => {
-        this.setState({ photos: json });
+        this.setState({ photos: json.reverse() });
       })
       .catch(error => {
         console.log(error);
       });
   }
 
-  reloadPhoto() {
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
     url = baseURL + "/uploads";
     getFetchWithToken(url)
       .then(json => {
-        this.setState({ photos: json });
+        this.setState({ photos: json.reverse(), refreshing: false });
       })
       .catch(error => {
         console.log(error);
       });
-  }
+  };
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+        }
+      >
         <View style={styles.photoView}>
           {this.state.photos.map((photo, index) => {
             return (
@@ -59,11 +67,6 @@ export default class UploadPhotosScreen extends Component {
             );
           })}
         </View>
-        <Button
-          onPress={() => this.reloadPhoto()}
-          title="Reload"
-          color="#841584"
-        />
       </ScrollView>
     );
   }

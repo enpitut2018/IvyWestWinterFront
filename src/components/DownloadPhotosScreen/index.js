@@ -34,7 +34,7 @@ export default class DownloadPhotosScreen extends Component {
     });
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.reloadPhoto();
   }
 

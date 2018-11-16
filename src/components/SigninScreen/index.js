@@ -23,8 +23,9 @@ export default class SigninScreen extends Component {
 
   onPushSubmit() {
     try {
-      signin(this.state.userId, this.state.pass);
-      Actions.reset("tab");
+      signin(this.state.userId, this.state.pass).then(json => {
+        Actions.reset("tab");
+      });
     } catch (error) {
       console.error(error);
     }

@@ -7,20 +7,23 @@ export function signin(userId, pass) {
     Password: pass
   };
   url = baseURL + "/signin";
-  fetch(url, {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8"
-    },
-    body: JSON.stringify(body)
-  })
-    .then(response => response.json())
-    .then(json => {
-      // ログイン完了処理
-      AsyncStorage.setItem(asyncStorageKeyPrefix + "token", json.Token);
+  return new Promise((resolve, jreject) => {
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify(body)
     })
-    .catch(error => console.log(error));
+      .then(response => response.json())
+      .then(json => {
+        // ログイン完了処理
+        AsyncStorage.setItem(asyncStorageKeyPrefix + "token", json.Token);
+        resolve(json);
+      })
+      .catch(error => console.log(error));
+  });
 }
 
 export function signup(userId, pass) {

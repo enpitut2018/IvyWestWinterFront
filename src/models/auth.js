@@ -7,20 +7,23 @@ export function signin(userId, pass) {
     Password: pass
   };
   url = baseURL + "/signin";
-  fetch(url, {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8"
-    },
-    body: JSON.stringify(body)
-  })
-    .then(response => response.json())
-    .then(json => {
-      // ログイン完了処理
-      AsyncStorage.setItem(asyncStorageKeyPrefix + "token", json.Token);
+  return new Promise((resolve, jreject) => {
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify(body)
     })
-    .catch(error => console.log(error));
+      .then(response => response.json())
+      .then(json => {
+        // ログイン完了処理
+        AsyncStorage.setItem(asyncStorageKeyPrefix + "token", json.Token);
+        resolve(json);
+      })
+      .catch(error => console.log(error));
+  });
 }
 
 export function signup(userId, pass) {
@@ -28,7 +31,7 @@ export function signup(userId, pass) {
     Userid: userId,
     Password: pass
   };
-  url = baseURL + "/signin";
+  url = baseURL + "/signup";
   fetch(url, {
     method: "POST",
     mode: "cors",
@@ -40,7 +43,8 @@ export function signup(userId, pass) {
     .then(response => response.json())
     .then(json => {
       // サインアップ完了処理
-      AsyncStorage.setItem(asyncStorageKeyPrefix + "token", json.Token);
+      // TODO Tokenが返ってくるようになったらTokenを保存する
+      AsyncStorage.setItem(asyncStorageKeyPrefix + "token", "");
     })
     .catch(error => console.log(error));
 }

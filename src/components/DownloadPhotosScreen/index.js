@@ -18,20 +18,22 @@ export default class DownloadPhotosScreen extends Component {
     super(props);
     this.state = {
       photos: [],
-      refreshing: false,
+      refreshing: false
     };
   }
 
   reloadPhoto() {
     url = baseURL + "/downloads";
-    getFetchWithToken(url).then(json => {
-      this.setState({
-        photos: json.reverse(),
-        refreshing: false,
+    getFetchWithToken(url)
+      .then(json => {
+        this.setState({
+          photos: json.reverse(),
+          refreshing: false
+        });
+      })
+      .catch(error => {
+        console.log(error);
       });
-    }).catch(error => {
-      console.log(error);
-    });
   }
 
   componentWillMount() {
@@ -39,9 +41,9 @@ export default class DownloadPhotosScreen extends Component {
   }
 
   _onRefresh = () => {
-    this.setState({refreshing: true});
-    this.reloadPhoto(); 
-  }
+    this.setState({ refreshing: true });
+    this.reloadPhoto();
+  };
 
   render() {
     return (
@@ -52,7 +54,6 @@ export default class DownloadPhotosScreen extends Component {
           <RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this._onRefresh}
-            title={'引っ張って更新'}
           />
         }
       >
@@ -62,7 +63,7 @@ export default class DownloadPhotosScreen extends Component {
               <AutoHeightImage
                 key={index}
                 width={width / 3}
-                source={{ uri: photo.Url }}
+                source={{ uri: photo.PhotoUrl }}
               />
             );
           })}

@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import {
   Dimensions,
-  Image,
   RefreshControl,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
   View
 } from "react-native";
-import { Actions } from "react-native-router-flux";
 import TouchablePhoto from "../../components/common/TouchablePhoto";
 import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";

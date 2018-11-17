@@ -5,7 +5,7 @@ import { Actions } from "react-native-router-flux";
 const TouchablePhoto = props => {
   const { photo, width, height } = props;
 
-  const onPressPhoto = () => Actions.photoDetail();
+  const onPressPhoto = () => Actions.photoDetail({ photo: photo });
 
   return (
     <TouchableOpacity onPress={onPressPhoto}>

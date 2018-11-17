@@ -1,13 +1,23 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { Dimensions, ScrollView } from "react-native";
+import AutoHeightImage from "react-native-auto-height-image";
 
-export default class PhotoDetailScreen extends Component {
+const { width } = Dimensions.get("window");
+
+class PhotoDetailScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
 
   render() {
-    return <View />;
+    const { photo } = this.props;
+
+    return (
+      <ScrollView>
+        <AutoHeightImage width={width} source={{ uri: photo.Url }} />
+      </ScrollView>
+    );
   }
 }
+
+export default PhotoDetailScreen;

@@ -12,7 +12,8 @@ const TouchablePhoto = props => {
       <Image
         key={photo.ID}
         style={{ width: width, height: height }}
-        source={{ uri: photo.Url }}
+        // TODO 以下、サーバサイドの表記揺れのため暫定的に三項演算子で処理
+        source={{ uri: photo.Url ? photo.Url : photo.PhotoUrl }}
       />
     </TouchableOpacity>
   );

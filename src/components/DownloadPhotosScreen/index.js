@@ -6,7 +6,7 @@ import {
   RefreshControl,
   Dimensions
 } from "react-native";
-import AutoHeightImage from "react-native-auto-height-image";
+import TouchablePhoto from "../../components/common/TouchablePhoto";
 import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 
@@ -60,10 +60,11 @@ export default class DownloadPhotosScreen extends Component {
         <View style={styles.photoView}>
           {this.state.photos.map((photo, index) => {
             return (
-              <AutoHeightImage
-                key={index}
+              <TouchablePhoto
+                key={photo.ID}
+                photo={photo}
                 width={width / 3}
-                source={{ uri: photo.PhotoUrl }}
+                height={width / 3}
               />
             );
           })}

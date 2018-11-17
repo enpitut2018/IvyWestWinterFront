@@ -33,7 +33,11 @@ class PhotoDetailScreen extends Component {
           <Text style={styles.userId}>guri3</Text>
           {/* TODO サンプルユーザ名差し替え */}
         </View>
-        <AutoHeightImage width={width} source={{ uri: photo.Url }} />
+        {/* TODO 以下、サーバサイドの表記揺れのため暫定的に三項演算子で処理 */}
+        <AutoHeightImage
+          width={width}
+          source={{ uri: photo.Url ? photo.Url : photo.PhotoUrl }}
+        />
       </ScrollView>
     );
   }

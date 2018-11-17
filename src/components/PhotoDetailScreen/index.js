@@ -28,8 +28,10 @@ class PhotoDetailScreen extends Component {
               uri:
                 "https:/s3-ap-northeast-1.amazonaws.com/ivy-west-winter/user-face-photos/bfn7ucj3spn4isqqr1bg.jpg"
             }}
+            // TODO サンプル画像差し替え
           />
           <Text style={styles.userId}>guri3</Text>
+          {/* TODO サンプルユーザ名差し替え */}
         </View>
         <AutoHeightImage width={width} source={{ uri: photo.Url }} />
       </ScrollView>

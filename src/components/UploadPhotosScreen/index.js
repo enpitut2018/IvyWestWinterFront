@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import {
   Dimensions,
+  Image,
   RefreshControl,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
   View
 } from "react-native";
-import AutoHeightImage from "react-native-auto-height-image";
+import { Actions } from "react-native-router-flux";
 import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 
@@ -45,6 +47,10 @@ export default class UploadPhotosScreen extends Component {
       });
   };
 
+  onPressPhoto = () => {
+    Actions.photoDetail();
+  };
+
   render() {
     return (
       <ScrollView
@@ -59,11 +65,13 @@ export default class UploadPhotosScreen extends Component {
         <View style={styles.photoView}>
           {this.state.photos.map((photo, index) => {
             return (
-              <AutoHeightImage
-                key={index}
-                width={width / 3}
-                source={{ uri: photo.Url }}
-              />
+              <TouchableOpacity onPress={this.onPressPhoto}>
+                <Image
+                  key={photo.ID}
+                  style={{ width: width / 3, height: width / 3 }}
+                  source={{ uri: photo.Url }}
+                />
+              </TouchableOpacity>
             );
           })}
         </View>

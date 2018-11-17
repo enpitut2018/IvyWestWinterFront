@@ -39,8 +39,6 @@ class PhotoDetailScreen extends Component {
   }
 }
 
-export default PhotoDetailScreen;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -65,3 +63,5 @@ const styles = StyleSheet.create({
     fontSize: 15
   }
 });
+
+export default PhotoDetailScreen;

@@ -3,11 +3,11 @@ import { asyncStorageKeyPrefix, baseURL } from "../libs/const";
 
 export function signin(userId, pass) {
   const body = {
-    Userid: userId,
-    Password: pass
+    userid: userId,
+    password: pass
   };
   url = baseURL + "/signin";
-  return new Promise((resolve, jreject) => {
+  return new Promise((resolve, reject) => {
     fetch(url, {
       method: "POST",
       mode: "cors",
@@ -28,8 +28,8 @@ export function signin(userId, pass) {
 
 export function signup(userId, pass) {
   const body = {
-    Userid: userId,
-    Password: pass
+    userid: userId,
+    password: pass
   };
   url = baseURL + "/signup";
   fetch(url, {

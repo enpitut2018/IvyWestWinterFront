@@ -31,6 +31,7 @@ export default class UserScreen extends Component {
         console.log(json);
         if (json.AvatarUrl) {
           const source = { uri: json.AvatarUrl };
+          console.log(source);
           this.setState({
             avatarSource: source
           });

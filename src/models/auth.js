@@ -19,7 +19,7 @@ export function signin(userId, pass) {
       .then(response => response.json())
       .then(json => {
         // ログイン完了処理
-        AsyncStorage.setItem(asyncStorageKeyPrefix + "token", json.Token);
+        AsyncStorage.setItem(asyncStorageKeyPrefix + "token", json.token);
         resolve(json);
       })
       .catch(error => console.log(error));

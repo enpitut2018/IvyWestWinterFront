@@ -60,7 +60,7 @@ export default class UploadPhotosScreen extends Component {
           {this.state.photos.map((photo, index) => {
             return (
               <TouchablePhoto
-                key={photo.ID}
+                key={photo.id}
                 photo={photo}
                 width={width / 3}
                 height={width / 3}

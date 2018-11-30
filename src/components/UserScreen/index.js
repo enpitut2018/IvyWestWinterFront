@@ -28,10 +28,8 @@ export default class UserScreen extends Component {
     url = baseURL + "/user";
     getFetchWithToken(url)
       .then(json => {
-        console.log(json);
-        if (json.AvatarUrl) {
-          const source = { uri: json.AvatarUrl };
-          console.log(source);
+        if (json.avatarurl) {
+          const source = { uri: json.avatarurl };
           this.setState({
             avatarSource: source
           });

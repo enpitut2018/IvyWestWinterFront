@@ -30,14 +30,9 @@ class PhotoDetailScreen extends Component {
             }}
             // TODO サンプル画像差し替え
           />
-          <Text style={styles.userId}>guri3</Text>
-          {/* TODO サンプルユーザ名差し替え */}
+          <Text style={styles.userId}>{photo.userid}</Text>
         </View>
-        {/* TODO 以下、サーバサイドの表記揺れのため暫定的に三項演算子で処理 */}
-        <AutoHeightImage
-          width={width}
-          source={{ uri: photo.Url ? photo.Url : photo.PhotoUrl }}
-        />
+        <AutoHeightImage width={width} source={{ uri: photo.url }} />
       </ScrollView>
     );
   }

@@ -20,6 +20,7 @@ export default class UserScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: "",
       avatarSource: InitialIcon
     };
   }
@@ -31,6 +32,7 @@ export default class UserScreen extends Component {
         if (json.avatarurl) {
           const source = { uri: json.avatarurl };
           this.setState({
+            userId: json.userid,
             avatarSource: source
           });
         }
@@ -76,6 +78,9 @@ export default class UserScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text style={{ fontSize: 20, marginBottom: 10 }}>
+          {this.state.userId}
+        </Text>
         <Image source={this.state.avatarSource} style={styles.userAvatar} />
         <Button
           block

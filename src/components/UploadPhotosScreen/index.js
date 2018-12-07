@@ -23,26 +23,39 @@ export default class UploadPhotosScreen extends Component {
   }
 
   componentWillMount() {
+    this.reloadPhoto();
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(this.autoReload, 1000);
+  }
+
+  componentWillUnMount() {
+    clearInterval(this.timer);
+  }
+
+  reloadPhoto() {
     url = baseURL + "/uploads";
     getFetchWithToken(url)
       .then(json => {
-        this.setState({ photos: json.reverse() });
+        this.setState({
+          photos: json.reverse(),
+          refreshing: false
+        });
       })
       .catch(error => {
         console.log(error);
       });
   }
 
+  // リフレッシュ非表示のため_onRefreshと似ているが定義した
+  autoReload = () => {
+    this.reloadPhoto();
+  };
+
   _onRefresh = () => {
     this.setState({ refreshing: true });
-    url = baseURL + "/uploads";
-    getFetchWithToken(url)
-      .then(json => {
-        this.setState({ photos: json.reverse(), refreshing: false });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.reloadPhoto();
   };
 
   render() {

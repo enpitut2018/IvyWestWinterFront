@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { AsyncStorage, Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import DownloadPhotosScreen from "./src/components/DownloadPhotosScreen";
-import CameraScreen from "./src/components/CameraScreen";
-import UploadPhotosScreen from "./src/components/UploadPhotosScreen";
-import UserScreen from "./src/components/UserScreen";
 import AuthScreen from "./src/components/AuthScreen";
 import SigninScreen from "./src/components/SigninScreen";
 import SignupScreen from "./src/components/SignupScreen";
+import DownloadPhotosScreen from "./src/components/DownloadPhotosScreen";
+import UploadPhotosScreen from "./src/components/UploadPhotosScreen";
+import PhotoDetailScreen from "./src/components/PhotoDetailScreen";
+import UserScreen from "./src/components/UserScreen";
+import CameraScreen from "./src/components/CameraScreen";
 import { Actions, Router, Scene, Tabs } from "react-native-router-flux";
 import { asyncStorageKeyPrefix } from "./src/libs/const";
 
@@ -37,6 +38,10 @@ class App extends Component {
     });
   }
 
+  photoDetailScene = () => (
+    <Scene key="photoDetail" title="写真詳細" component={PhotoDetailScreen} />
+  );
+
   render() {
     return (
       <Router>
@@ -44,21 +49,35 @@ class App extends Component {
           <Tabs key="tab">
             <Scene
               key="downloads"
-              title="ダウンロード"
               initial={this.state.isLogin == true}
-              component={DownloadPhotosScreen}
               tabBarLabel="ダウンロード"
               icon={() => <Icon size={20} name="download" color="#999" />}
-              renderRightButton={cameraIcon}
-            />
+            >
+              <Scene
+                key="downloadPhoto"
+                initial={true}
+                title="ダウンロード"
+                component={DownloadPhotosScreen}
+                renderRightButton={cameraIcon}
+              />
+              {this.photoDetailScene()}
+            </Scene>
             <Scene
               key="uploads"
-              title="アップロード"
-              component={UploadPhotosScreen}
               tabBarLabel="アップロード"
               icon={() => <Icon size={20} name="upload" color="#999" />}
-              renderRightButton={cameraIcon}
-            />
+            >
+              <Scene
+                key="uploadPhoto"
+                initial={true}
+                title="アップロード"
+                component={UploadPhotosScreen}
+                tabBarLabel="アップロード"
+                icon={() => <Icon size={20} name="upload" color="#999" />}
+                renderRightButton={cameraIcon}
+              />
+              {this.photoDetailScene()}
+            </Scene>
             <Scene
               key="user"
               title="ユーザー情報"

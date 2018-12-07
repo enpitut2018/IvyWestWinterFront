@@ -22,6 +22,18 @@ export default class DownloadPhotosScreen extends Component {
     };
   }
 
+  componentWillMount() {
+    this.reloadPhoto();
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(this.autoReload, 1000);
+  }
+
+  componentWillUnMount() {
+    clearInterval(this.timer);
+  }
+
   reloadPhoto() {
     url = baseURL + "/downloads";
     getFetchWithToken(url)
@@ -36,9 +48,10 @@ export default class DownloadPhotosScreen extends Component {
       });
   }
 
-  componentWillMount() {
+  // リフレッシュ非表示のため_onRefreshと似ているが定義した
+  autoReload = () => {
     this.reloadPhoto();
-  }
+  };
 
   _onRefresh = () => {
     this.setState({ refreshing: true });

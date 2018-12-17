@@ -5,6 +5,7 @@ import CameraIcon from "./src/components/parts/CameraIcon";
 import AuthScreen from "./src/components/screens/AuthScreen";
 import SigninScreen from "./src/components/screens/SigninScreen";
 import SignupScreen from "./src/components/screens/SignupScreen";
+import DownloadTimeLineScreen from "./src/components/screens/DownloadTimeLineScreen";
 import DownloadPhotosScreen from "./src/components/screens/DownloadPhotosScreen";
 import UploadPhotosScreen from "./src/components/screens/UploadPhotosScreen";
 import PhotoDetailScreen from "./src/components/screens/PhotoDetailScreen";
@@ -40,17 +41,32 @@ class App extends Component {
             <Scene
               key="downloads"
               initial={this.state.isLogin == true}
+              title="ダウンロード"
+              renderRightButton={CameraIcon}
               tabBarLabel="ダウンロード"
               icon={() => <Icon size={20} name="download" color="#999" />}
             >
-              <Scene
-                key="downloadPhoto"
-                initial={true}
-                title="ダウンロード"
-                component={DownloadPhotosScreen}
-                renderRightButton={CameraIcon}
-              />
-              {this.photoDetailScene()}
+              <Tabs
+                key="downloadTab"
+                // TODO カラーの設定
+                // activeBackgroundColor="#FF0000"
+                // activeTintColor="#FF0000"
+                // inactiveBackgroundColor="#00FF00"
+                // inactiveTintColor="#00FF00"
+                tabBarPosition="top"
+                headerMode="none"
+              >
+                <Scene
+                  key="downloadTimeLine"
+                  initial={true}
+                  tabBarLabel="タイムライン"
+                  component={DownloadTimeLineScreen}
+                />
+                <Scene tabBarLabel="サムネイル">
+                  <Scene key="downloadPhoto" component={DownloadPhotosScreen} />
+                  {this.photoDetailScene()}
+                </Scene>
+              </Tabs>
             </Scene>
             <Scene
               key="uploads"

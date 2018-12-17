@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import {
   Button,
   Container,
@@ -22,13 +22,21 @@ export default class SigninScreen extends Component {
   }
 
   onPushSubmit() {
-    try {
-      signin(this.state.userId, this.state.pass).then(json => {
+    signin(this.state.userId, this.state.pass)
+      .then(json => {
         Actions.reset("tab");
+      })
+      .catch(error => {
+        return Alert.alert(
+          error.message,
+          "ユーザIDもしくはパスワードが間違っています。",
+          [
+            {
+              text: "OK"
+            }
+          ]
+        );
       });
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   render() {

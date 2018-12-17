@@ -9,7 +9,6 @@ import DownloadPhotosScreen from "./src/components/screens/DownloadPhotosScreen"
 import UploadPhotosScreen from "./src/components/screens/UploadPhotosScreen";
 import PhotoDetailScreen from "./src/components/screens/PhotoDetailScreen";
 import UserScreen from "./src/components/screens/UserScreen";
-import CameraScreen from "./src/components/screens/CameraScreen";
 import { Router, Scene, Tabs } from "react-native-router-flux";
 import { asyncStorageKeyPrefix } from "./src/libs/const";
 
@@ -83,7 +82,6 @@ class App extends Component {
             <Scene key="signin" title="サインイン" component={SigninScreen} />
             <Scene key="signup" title="サインアップ" component={SignupScreen} />
           </Scene>
-          <Scene key="camera" component={CameraScreen} />
         </Scene>
       </Router>
     );

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { AsyncStorage, Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import AuthScreen from "./src/components/AuthScreen";
-import SigninScreen from "./src/components/SigninScreen";
-import SignupScreen from "./src/components/SignupScreen";
-import DownloadPhotosScreen from "./src/components/DownloadPhotosScreen";
-import UploadPhotosScreen from "./src/components/UploadPhotosScreen";
-import PhotoDetailScreen from "./src/components/PhotoDetailScreen";
-import UserScreen from "./src/components/UserScreen";
-import CameraScreen from "./src/components/CameraScreen";
+import AuthScreen from "./src/components/screens/AuthScreen";
+import SigninScreen from "./src/components/screens/SigninScreen";
+import SignupScreen from "./src/components/screens/SignupScreen";
+import DownloadPhotosScreen from "./src/components/screens/DownloadPhotosScreen";
+import UploadPhotosScreen from "./src/components/screens/UploadPhotosScreen";
+import PhotoDetailScreen from "./src/components/screens/PhotoDetailScreen";
+import UserScreen from "./src/components/screens/UserScreen";
+import CameraScreen from "./src/components/screens/CameraScreen";
 import { Actions, Router, Scene, Tabs } from "react-native-router-flux";
 import { asyncStorageKeyPrefix } from "./src/libs/const";
 

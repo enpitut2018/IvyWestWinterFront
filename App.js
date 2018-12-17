@@ -62,11 +62,13 @@ class App extends Component {
                   tabBarLabel="タイムライン"
                   component={DownloadTimeLineScreen}
                 />
-                <Scene tabBarLabel="サムネイル">
-                  <Scene key="downloadPhoto" component={DownloadPhotosScreen} />
-                  {this.photoDetailScene()}
-                </Scene>
+                <Scene
+                  key="downloadPhoto"
+                  tabBarLabel="サムネイル"
+                  component={DownloadPhotosScreen}
+                />
               </Tabs>
+              {this.photoDetailScene()}
             </Scene>
             <Scene
               key="uploads"

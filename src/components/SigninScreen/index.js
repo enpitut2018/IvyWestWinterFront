@@ -56,6 +56,7 @@ export default class SigninScreen extends Component {
               <Input
                 onChangeText={text => this.setState({ pass: text })}
                 value={this.state.pass}
+                secureTextEntry={true}
                 placeholder="パスワード"
                 autoCapitalize="none"
               />

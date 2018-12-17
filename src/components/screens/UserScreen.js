@@ -7,16 +7,20 @@ import InitialIcon from "../../assets/initial_icon.png";
 import { getFetchWithToken, postFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 
+// react-native-image-picker用オプション変数
 const options = {
-  title: "Select Avatar",
-  customButtons: [{ name: "fb", title: "Choose Photo from Facebook" }],
+  cameraType: "front", // フロントカメラで起動 TODO フロント固定
+  mediaType: "photo",
+  quality: "0.1", // TODO 検証をしやくするため、品質を落としている。本番では0.5ほどに設定したい
+  allowsEditing: true,
   storageOptions: {
-    skipBackup: true,
-    path: "images"
+    skipBackup: true, // iCloudのバックアップをしない
+    path: "ivy-west-winter", // 画像を保存するフォルダ名
+    cameraRoll: true // 本体のカメラロールに画像を保存する
   }
 };
 
-export default class UserScreen extends Component {
+class UserScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,7 +47,7 @@ export default class UserScreen extends Component {
   }
 
   onPushUserAvatar() {
-    ImagePicker.showImagePicker(options, response => {
+    ImagePicker.launchCamera(options, response => {
       console.log("Response = ", response);
 
       if (response.didCancel) {
@@ -57,7 +61,6 @@ export default class UserScreen extends Component {
         let body = { source: response.data };
         postFetchWithToken(baseURL + "/uploadUserFace", body)
           .then(json => {
-            console.log(json);
             this.setState({
               avatarSource: source
             });
@@ -122,3 +125,5 @@ const styles = StyleSheet.create({
     marginBottom: 20
   }
 });
+
+export default UserScreen;

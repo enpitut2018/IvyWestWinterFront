@@ -16,13 +16,18 @@ export function signin(userId, pass) {
       },
       body: JSON.stringify(body)
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 400) {
+          throw new Error("ログインに失敗しました。");
+        }
+        return response.json();
+      })
       .then(json => {
         // ログイン完了処理
         AsyncStorage.setItem(asyncStorageKeyPrefix + "token", json.token);
         resolve(json);
       })
-      .catch(error => console.log(error));
+      .catch(error => reject(error));
   });
 }
 

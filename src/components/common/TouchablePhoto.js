@@ -20,6 +20,7 @@ const TouchablePhoto = props => {
           margin: photoMarginSize
         }}
         source={{ uri: photo.url }}
+        resizeMethod="resize"
       />
     </TouchableOpacity>
   );

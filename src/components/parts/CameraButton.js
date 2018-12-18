@@ -1,4 +1,5 @@
 import React from "react";
+import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ImagePicker from "react-native-image-picker";
 import { postFetchWithToken } from "../../models/fetchUtil";
@@ -16,12 +17,8 @@ const options = {
 };
 
 // classで実装するとなぜかアイコンが表示されなくなるため、関数として実装した
-const CameraIcon = () => (
-  <Icon
-    style={{ marginRight: 10 }}
-    size={23}
-    name="camera"
-    color="#999"
+const CameraButton = () => (
+  <TouchableOpacity
     onPress={() => {
       ImagePicker.launchCamera(options, response => {
         console.log("Response = ", response);
@@ -45,7 +42,25 @@ const CameraIcon = () => (
         }
       });
     }}
-  />
+    style={{
+      width: 76,
+      height: 76,
+      borderRadius: 38,
+      borderWidth: 4,
+      borderColor: "#4c91ff",
+      backgroundColor: "white",
+      position: "absolute",
+      right: 12,
+      bottom: 9
+    }}
+  >
+    <Icon
+      style={{ position: "absolute", top: 19, left: 18 }}
+      size={30}
+      name="camera"
+      color="#4c91ff"
+    />
+  </TouchableOpacity>
 );
 
-export default CameraIcon;
+export default CameraButton;

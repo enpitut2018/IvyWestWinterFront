@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { AsyncStorage, Text } from "react-native";
+import { AsyncStorage } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import CameraIcon from "./src/components/parts/CameraIcon";
+import CameraButton from "./src/components/parts/CameraButton";
 import AuthScreen from "./src/components/screens/AuthScreen";
 import SigninScreen from "./src/components/screens/SigninScreen";
 import SignupScreen from "./src/components/screens/SignupScreen";
@@ -37,12 +37,11 @@ class App extends Component {
     return (
       <Router>
         <Scene key="root" hideNavBar={true}>
-          <Tabs key="tab">
+          <Tabs key="tab" showLabel={false}>
             <Scene
               key="downloads"
               initial={this.state.isLogin == true}
               title="ダウンロード"
-              renderRightButton={CameraIcon}
               tabBarLabel="ダウンロード"
               icon={() => <Icon size={20} name="download" color="#999" />}
             >
@@ -55,6 +54,7 @@ class App extends Component {
                 // inactiveTintColor="#00FF00"
                 tabBarPosition="top"
                 headerMode="none"
+                showLabel={true}
               >
                 <Scene
                   key="downloadTimeLine"
@@ -82,7 +82,6 @@ class App extends Component {
                 component={UploadPhotosScreen}
                 tabBarLabel="アップロード"
                 icon={() => <Icon size={20} name="upload" color="#999" />}
-                renderRightButton={CameraIcon}
               />
               {this.photoDetailScene()}
             </Scene>
@@ -92,7 +91,14 @@ class App extends Component {
               component={UserScreen}
               tabBarLabel="ユーザー"
               icon={() => <Icon size={20} name="user" color="#999" />}
-              renderRightButton={CameraIcon}
+            />
+            <Scene
+              key="camera"
+              title="撮影"
+              component={UserScreen}
+              // componentを使用せず、擬似的にボタンを設置してカメラ起動を実装した
+              tabBarLabel="撮影"
+              icon={() => CameraButton()}
             />
           </Tabs>
           <Scene key="auth" initial={this.state.isLogin == false}>

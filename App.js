@@ -56,9 +56,11 @@ class App extends Component {
                 key="downloadTab"
                 // TODO カラーの設定
                 // activeBackgroundColor="#FF0000"
-                // activeTintColor="#FF0000"
+                activeTintColor="#4c91ff"
                 // inactiveBackgroundColor="#00FF00"
-                // inactiveTintColor="#00FF00"
+                inactiveTintColor="#000000"
+                indicatorStyle={{ backgroundColor: "#4c91ff" }}
+                tabBarStyle={{ backgroundColor: "white" }}
                 tabBarPosition="top"
                 headerMode="none"
                 showLabel={true}

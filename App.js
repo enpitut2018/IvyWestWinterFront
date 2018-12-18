@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { AsyncStorage } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/SimpleLineIcons";
+// import Icon from "react-native-vector-icons/FontAwesome";
 import CameraButton from "./src/components/parts/CameraButton";
 import AuthScreen from "./src/components/screens/AuthScreen";
 import SigninScreen from "./src/components/screens/SigninScreen";
@@ -12,6 +13,11 @@ import PhotoDetailScreen from "./src/components/screens/PhotoDetailScreen";
 import UserScreen from "./src/components/screens/UserScreen";
 import { Router, Scene, Tabs } from "react-native-router-flux";
 import { asyncStorageKeyPrefix } from "./src/libs/const";
+
+const TabIcon = props => {
+  const color = props.focused ? "#4c91ff" : "#999";
+  return <Icon size={27} name={props.iconName} color={color} />;
+};
 
 class App extends Component {
   constructor(props) {
@@ -41,9 +47,10 @@ class App extends Component {
             <Scene
               key="downloads"
               initial={this.state.isLogin == true}
-              title="ダウンロード"
-              tabBarLabel="ダウンロード"
-              icon={() => <Icon size={20} name="download" color="#999" />}
+              title="もらった写真"
+              tabBarLabel="もらった写真"
+              iconName="home"
+              icon={TabIcon}
             >
               <Tabs
                 key="downloadTab"
@@ -72,16 +79,18 @@ class App extends Component {
             </Scene>
             <Scene
               key="uploads"
-              tabBarLabel="アップロード"
-              icon={() => <Icon size={20} name="upload" color="#999" />}
+              tabBarLabel="撮った写真"
+              iconName="cloud-upload"
+              icon={TabIcon}
             >
               <Scene
                 key="uploadPhoto"
                 initial={true}
-                title="アップロード"
+                title="撮った写真"
                 component={UploadPhotosScreen}
-                tabBarLabel="アップロード"
-                icon={() => <Icon size={20} name="upload" color="#999" />}
+                tabBarLabel="撮った写真"
+                iconName="upload"
+                icon={TabIcon}
               />
               {this.photoDetailScene()}
             </Scene>
@@ -90,7 +99,8 @@ class App extends Component {
               title="ユーザー情報"
               component={UserScreen}
               tabBarLabel="ユーザー"
-              icon={() => <Icon size={20} name="user" color="#999" />}
+              iconName="user"
+              icon={TabIcon}
             />
             <Scene
               key="camera"

@@ -33,9 +33,10 @@ class TimeLineCard extends Component {
           写っている人
         </Text>
         <View style={styles.peopleAvatarArea}>
-          {[...Array(15)].map(() => {
+          {[...Array(15)].map((_, i) => {
             return (
               <Image
+                key={`${photo.id}-${i}`}
                 style={styles.peopleAvatar}
                 source={{
                   uri:

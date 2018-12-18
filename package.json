@@ -13,6 +13,8 @@
     "react-native": "0.57.2",
     "react-native-auto-height-image": "^1.0.5",
     "react-native-image-picker": "^0.27.1",
+    "react-native-image-progress": "^1.1.1",
+    "react-native-progress": "^3.5.0",
     "react-native-router-flux": "^4.0.5",
     "react-navigation": "^2.17.0"
   },

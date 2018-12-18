@@ -7,13 +7,30 @@ import {
   Text,
   View
 } from "react-native";
+import { createImageProgress } from "react-native-image-progress";
+import * as Progress from "react-native-progress";
 import AutoHeightImage from "react-native-auto-height-image";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
+
+const ImageWithProgress = createImageProgress(AutoHeightImage);
 
 class PhotoDetailScreen extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      imageWidth: width,
+      imageHeight: height / 3
+    };
+  }
+
+  componentWillMount() {
+    Image.getSize(this.props.photo.url, (imageWidth, imageHeight) => {
+      this.setState({
+        imageWidth: imageWidth,
+        imageHeight: imageHeight
+      });
+    });
   }
 
   render() {
@@ -32,7 +49,15 @@ class PhotoDetailScreen extends Component {
           />
           <Text style={styles.userId}>{photo.userid}</Text>
         </View>
-        <AutoHeightImage width={width} source={{ uri: photo.url }} />
+        <ImageWithProgress
+          style={{
+            width: this.state.imageWidth * (width / this.state.imageWidth),
+            height: this.state.imageHeight * (width / this.state.imageWidth)
+          }}
+          width={width}
+          source={{ uri: photo.url }}
+          indicator={Progress.Pie}
+        />
       </ScrollView>
     );
   }

@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
+// import Icon from "react-native-vector-icons/SimpleLineIcons";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ImagePicker from "react-native-image-picker";
 import { postFetchWithToken } from "../../models/fetchUtil";

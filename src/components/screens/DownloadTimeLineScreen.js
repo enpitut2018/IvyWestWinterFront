@@ -51,7 +51,6 @@ class DownloadTimeLineScreen extends Component {
 
   render() {
     const { photos } = this.state;
-    console.log(photos);
 
     return (
       <ScrollView

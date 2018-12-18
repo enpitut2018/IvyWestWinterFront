@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { RefreshControl, ScrollView, StyleSheet } from "react-native";
-import TimeLineCard from "../parts/TimeLineCard";
+import TimeLineCard from "../organisms/TimeLineCard";
 import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 

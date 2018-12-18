@@ -64,7 +64,7 @@ class DownloadTimeLineScreen extends Component {
         }
       >
         {photos.map((photo, index) => {
-          return <TimeLineCard photo={photo} />;
+          return <TimeLineCard key={photo.id} photo={photo} />;
         })}
       </ScrollView>
     );
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#CCCCCC"
   },
   userInfo: {
     flex: 1,

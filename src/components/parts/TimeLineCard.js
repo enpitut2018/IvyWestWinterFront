@@ -14,7 +14,7 @@ class TimeLineCard extends Component {
     const { photo } = this.props;
 
     return (
-      <View>
+      <View style={{ marginBottom: 10 }}>
         <View style={styles.userInfo}>
           <Image
             style={styles.userAvatar}

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { Dimensions, View } from "react-native";
-import UserInfo from "../parts/UserInfo";
 import PeopleAvatarArea from "../parts/PeopleAvatarArea";
 import AutoHeightImage from "react-native-auto-height-image";
 import { createImageProgress } from "react-native-image-progress";
 import * as Progress from "react-native-progress";
+import UserInfo from "../parts/UserInfo";
+import PeopleList from "../parts/PeopleList";
 
 // 画面サイズを取得
 const { width, height } = Dimensions.get("window");
@@ -15,8 +16,8 @@ const PhotoDetail = ({ photo, photoWidth, photoHeight }) => {
   return (
     <View>
       <UserInfo
-        avatarURL="https:/s3-ap-northeast-1.amazonaws.com/ivy-west-winter/user-face-photos/bfn7ucj3spn4isqqr1bg.jpg"
-        userID="guri3"
+        avatarURL="http://jiyuubito21102.com/wp-content/uploads/2018/02/yosiokariho.jpg.pagespeed.ce.Shw1B9OFrq.jpg"
+        userID="yoshioka"
         // TODO きちんとしたデータに差し替える
       />
       <ImageWithProgress
@@ -28,7 +29,7 @@ const PhotoDetail = ({ photo, photoWidth, photoHeight }) => {
         source={{ uri: photo.url }}
         indicator={Progress.Pie}
       />
-      <PeopleAvatarArea
+      <PeopleList
         photoID={photo.id}
         people={"test"}
         // TODO きちんとしたデータに差し替える

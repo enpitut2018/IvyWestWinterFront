@@ -1,5 +1,6 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
+import { Text } from "native-base";
 
 const PeopleAvatarArea = ({ photoID, people }) => {
   return (

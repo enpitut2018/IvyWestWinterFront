@@ -11,8 +11,8 @@ const TimeLineCard = ({ photo }) => {
   return (
     <View style={{ marginBottom: 10 }}>
       <UserInfo
-        avatarURL="https:/s3-ap-northeast-1.amazonaws.com/ivy-west-winter/user-face-photos/bfn7ucj3spn4isqqr1bg.jpg"
-        userID="guri3"
+        avatarURL="http://jiyuubito21102.com/wp-content/uploads/2018/02/yosiokariho.jpg.pagespeed.ce.Shw1B9OFrq.jpg"
+        userID="yoshioka"
         // TODO きちんとしたデータに差し替える
       />
       <AutoHeightImage width={width} source={{ uri: photo.url }} />

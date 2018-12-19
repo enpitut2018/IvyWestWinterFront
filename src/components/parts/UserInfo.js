@@ -1,15 +1,11 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import { Thumbnail } from "native-base";
 
 const UserInfo = ({ avatarURL, userID }) => {
   return (
     <View style={styles.userInfo}>
-      <Image
-        style={styles.userAvatar}
-        source={{
-          uri: avatarURL
-        }}
-      />
+      <Thumbnail style={styles.userAvatar} small source={{ uri: avatarURL }} />
       <Text style={styles.userID}>{userID}</Text>
     </View>
   );
@@ -24,9 +20,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   userAvatar: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
     marginRight: 10,
     marginLeft: 10
   },

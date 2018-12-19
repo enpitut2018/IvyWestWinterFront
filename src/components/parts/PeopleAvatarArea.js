@@ -28,6 +28,7 @@ const PeopleAvatarArea = ({ photoID, people }) => {
 const styles = StyleSheet.create({
   text: {
     backgroundColor: "white",
+    color: "#333",
     paddingTop: 10,
     paddingLeft: 10
   },

@@ -4,11 +4,14 @@ import {
   View,
   ScrollView,
   RefreshControl,
-  Dimensions
+  Dimensions,
+  Text,
+  TouchableOpacity
 } from "react-native";
 import TouchablePhoto from "../parts/TouchablePhoto";
 import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
+import { Actions } from "react-native-router-flux";
 
 // 画面幅サイズを取得
 const { width } = Dimensions.get("window");
@@ -60,29 +63,47 @@ export default class DownloadPhotosScreen extends Component {
 
   render() {
     return (
-      <ScrollView
-        style={styles.container}
-        // 引っ張って更新
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh}
-          />
-        }
-      >
-        <View style={styles.photoView}>
-          {this.state.photos.map((photo, index) => {
-            return (
-              <TouchablePhoto
-                key={photo.id}
-                photo={photo}
-                width={width / 3}
-                height={width / 3}
-              />
-            );
-          })}
+      <View style={{ flex: 1 }}>
+        <View style={styles.filterContainer}>
+          <TouchableOpacity onPress={() => Actions.UserFilter()}>
+            <View
+              style={{
+                margin: 10,
+                width: 300,
+                backgroundColor: "#EEE",
+                borderWidth: 2,
+                borderColor: "#EEE",
+                borderRadius: 30
+              }}
+            >
+              <Text>フィルタ</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
+        <ScrollView
+          style={styles.container}
+          // 引っ張って更新
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }
+        >
+          <View style={styles.photoView}>
+            {this.state.photos.map((photo, index) => {
+              return (
+                <TouchablePhoto
+                  key={photo.id}
+                  photo={photo}
+                  width={width / 3}
+                  height={width / 3}
+                />
+              );
+            })}
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -101,5 +122,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     margin: 10
+  },
+  filterContainer: {
+    backgroundColor: "#FFF",
+    justifyContent: "center"
   }
 });

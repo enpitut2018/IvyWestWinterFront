@@ -52,15 +52,6 @@ class App extends Component {
               tabBarLabel="もらった写真"
               iconName="home"
               icon={TabIcon}
-              renderRightButton={() => (
-                <Icon
-                  style={{ marginRight: 10 }}
-                  size={20}
-                  name="magnifier"
-                  color="#BDBDBD"
-                  onPress={() => Actions.UserFilter()}
-                />
-              )}
             >
               <Tabs
                 key="downloadTab"

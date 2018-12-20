@@ -6,7 +6,17 @@ import {
   StyleSheet,
   TouchableOpacity
 } from "react-native";
-import { Body, Left, List, ListItem, Text, Thumbnail } from "native-base";
+import {
+  Body,
+  Left,
+  List,
+  ListItem,
+  Text,
+  Thumbnail,
+  Right,
+  Container
+} from "native-base";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 export default class UserFilter extends Component {
   constructor(props) {
@@ -42,7 +52,7 @@ export default class UserFilter extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <Container style={styles.container}>
         <List>
           <FlatList
             data={this.dummylist}
@@ -54,11 +64,14 @@ export default class UserFilter extends Component {
                 <Body>
                   <Text>{item.userId}</Text>
                 </Body>
+                <Right>
+                  <Icon name="check" size={25} />
+                </Right>
               </ListItem>
             )}
           />
         </List>
-      </View>
+      </Container>
     );
   }
 }

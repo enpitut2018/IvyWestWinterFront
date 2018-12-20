@@ -11,8 +11,9 @@ import DownloadPhotosScreen from "./src/components/screens/DownloadPhotosScreen"
 import UploadPhotosScreen from "./src/components/screens/UploadPhotosScreen";
 import PhotoDetailScreen from "./src/components/screens/PhotoDetailScreen";
 import UserScreen from "./src/components/screens/UserScreen";
-import { Router, Scene, Tabs } from "react-native-router-flux";
+import { Router, Scene, Tabs, Actions } from "react-native-router-flux";
 import { asyncStorageKeyPrefix } from "./src/libs/const";
+import UserFilter from "./src/components/parts/UserFilter";
 
 const TabIcon = props => {
   const color = props.focused ? "#4c91ff" : "#999";
@@ -51,6 +52,15 @@ class App extends Component {
               tabBarLabel="もらった写真"
               iconName="home"
               icon={TabIcon}
+              renderRightButton={() => (
+                <Icon
+                  style={{ marginRight: 10 }}
+                  size={20}
+                  name="magnifier"
+                  color="#BDBDBD"
+                  onPress={() => Actions.UserFilter()}
+                />
+              )}
             >
               <Tabs
                 key="downloadTab"
@@ -77,6 +87,7 @@ class App extends Component {
                 />
               </Tabs>
               {this.photoDetailScene()}
+              <Scene key="UserFilter" title="友達検索" component={UserFilter} />
             </Scene>
             <Scene
               key="uploads"

@@ -9,7 +9,6 @@ import { baseURL } from "../../libs/const";
 
 // ユーザアバター用カメラ起動オプション
 const userAvatarCameraOptions = {
-  cameraType: "front", // フロントカメラで起動 TODO フロント固定
   mediaType: "photo",
   quality: "0.1", // TODO 検証をしやくするため、品質を落としている。本番では0.5ほどに設定したい
   allowsEditing: true,
@@ -60,7 +59,7 @@ class UserScreen extends Component {
   }
 
   onPushUserAvatar() {
-    ImagePicker.launchCamera(userAvatarCameraOptions, response => {
+    ImagePicker.showImagePicker(userAvatarCameraOptions, response => {
       console.log("Response = ", response);
 
       if (response.didCancel) {
@@ -135,7 +134,7 @@ class UserScreen extends Component {
           style={styles.button}
           onPress={() => this.onPushUserAvatar()}
         >
-          <Text>ユーザー画像を登録</Text>
+          <Text>アバター用画像を登録</Text>
         </Button>
         <Button
           block

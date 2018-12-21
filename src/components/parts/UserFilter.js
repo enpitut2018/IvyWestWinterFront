@@ -11,10 +11,13 @@ import {
   Left,
   List,
   ListItem,
-  Text,
   Thumbnail,
   Right,
-  Container
+  Container,
+  Footer,
+  Button,
+  Text,
+  Content
 } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
@@ -22,12 +25,14 @@ export default class UserFilter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: []
+      users: [],
+      selectedUsers: [],
+      update: 0
     };
   }
 
   componentDidMount() {
-    console.log("hoge");
+    this._fetch();
   }
 
   dummylist = [
@@ -48,29 +53,69 @@ export default class UserFilter extends Component {
     }
   ];
 
-  _fetch = () => {};
+  _fetch = () => {
+    this.dummylist.map(item => {
+      item.check = false;
+    });
+    this.setState({ users: this.dummylist });
+  };
+
+  onPressItem = item => {
+    const tmp = this.state.users;
+    tmp.map(user => {
+      if (user.userId == item.userId) {
+        user.check = !user.check;
+        if (user.check) {
+          this.state.selectedUsers.push(user);
+        } else {
+          const i = this.state.selectedUsers.indexOf(user);
+          this.state.selectedUsers.splice(i, 1);
+        }
+      }
+    });
+    this.setState({ users: tmp, update: this.state.update + 1 });
+  };
 
   render() {
     return (
       <Container style={styles.container}>
-        <List>
-          <FlatList
-            data={this.dummylist}
-            renderItem={({ item }) => (
-              <ListItem avatar>
-                <Left>
-                  <Thumbnail small source={{ url: item.avatarSource }} />
-                </Left>
-                <Body>
-                  <Text>{item.userId}</Text>
-                </Body>
-                <Right>
-                  <Icon name="check" size={25} />
-                </Right>
-              </ListItem>
-            )}
-          />
-        </List>
+        <View style={{ flex: 1 }}>
+          <List>
+            <FlatList
+              data={this.state.users}
+              keyExtractor={item => item.userId}
+              extraData={this.state.update}
+              renderItem={({ item }) => (
+                <ListItem avatar onPress={() => this.onPressItem(item)}>
+                  <Left>
+                    <Thumbnail small source={{ url: item.avatarSource }} />
+                  </Left>
+                  <Body>
+                    {item.check ? (
+                      <Text style={{ fontWeight: "bold" }}>{item.userId}</Text>
+                    ) : (
+                      <Text>{item.userId}</Text>
+                    )}
+                  </Body>
+                  <Right>
+                    {item.check ? (
+                      <Icon name="check" size={20} color="#00BFFF" />
+                    ) : (
+                      <Icon name="check" size={20} color="#D8D8D8" />
+                    )}
+                  </Right>
+                </ListItem>
+              )}
+            />
+          </List>
+        </View>
+        <Footer>
+          <Content>
+            <Button full info>
+              <Text>検索</Text>
+            </Button>
+          </Content>
+        </Footer>
       </Container>
     );
   }

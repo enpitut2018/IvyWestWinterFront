@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AsyncStorage, Image, StyleSheet, View } from "react-native";
+import { Alert, AsyncStorage, Image, StyleSheet, View } from "react-native";
 import { Button, Text } from "native-base";
 import { Actions } from "react-native-router-flux";
 import ImagePicker from "react-native-image-picker";
@@ -100,9 +100,15 @@ class UserScreen extends Component {
         let body = { source: response.data };
         postFetchWithToken(baseURL + "/uploadUserFace", body) // TODO 顔認証画像アップロードに修正する
           .then(json => {
-            this.setState({
-              avatarSource: source
-            });
+            return Alert.alert(
+              error.message,
+              "顔認証用の画像をアップロードしました。",
+              [
+                {
+                  text: "OK"
+                }
+              ]
+            );
           })
           .catch(error => {
             console.error(error);

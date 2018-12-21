@@ -7,8 +7,21 @@ import InitialIcon from "../../assets/initial_icon.png";
 import { getFetchWithToken, postFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 
-// react-native-image-picker用オプション変数
-const options = {
+// ユーザアバター用カメラ起動オプション
+const userAvatarCameraOptions = {
+  cameraType: "front", // フロントカメラで起動 TODO フロント固定
+  mediaType: "photo",
+  quality: "0.1", // TODO 検証をしやくするため、品質を落としている。本番では0.5ほどに設定したい
+  allowsEditing: true,
+  storageOptions: {
+    skipBackup: true, // iCloudのバックアップをしない
+    path: "ivy-west-winter", // 画像を保存するフォルダ名
+    cameraRoll: true // 本体のカメラロールに画像を保存する
+  }
+};
+
+// 顔認証用カメラ起動オプション
+const userFaceCameraOptions = {
   cameraType: "front", // フロントカメラで起動 TODO フロント固定
   mediaType: "photo",
   quality: "0.1", // TODO 検証をしやくするため、品質を落としている。本番では0.5ほどに設定したい
@@ -47,7 +60,7 @@ class UserScreen extends Component {
   }
 
   onPushUserAvatar() {
-    ImagePicker.launchCamera(options, response => {
+    ImagePicker.launchCamera(userAvatarCameraOptions, response => {
       console.log("Response = ", response);
 
       if (response.didCancel) {
@@ -60,6 +73,32 @@ class UserScreen extends Component {
         const source = { uri: response.uri };
         let body = { source: response.data };
         postFetchWithToken(baseURL + "/uploadUserFace", body)
+          .then(json => {
+            this.setState({
+              avatarSource: source
+            });
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+    });
+  }
+
+  onPushUserFace() {
+    ImagePicker.launchCamera(userAvatarCameraOptions, response => {
+      console.log("Response = ", response);
+
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        let body = { source: response.data };
+        postFetchWithToken(baseURL + "/uploadUserFace", body) // TODO 顔認証画像アップロードに修正する
           .then(json => {
             this.setState({
               avatarSource: source
@@ -90,7 +129,14 @@ class UserScreen extends Component {
           style={styles.button}
           onPress={() => this.onPushUserAvatar()}
         >
-          <Text>ユーザー画像を変更</Text>
+          <Text>ユーザー画像を登録</Text>
+        </Button>
+        <Button
+          block
+          style={styles.button}
+          onPress={() => this.onPushUserFace()}
+        >
+          <Text>顔認証用画面を登録</Text>
         </Button>
         <Button
           block

@@ -37,19 +37,27 @@ export function signup(userId, pass) {
     password: pass
   };
   url = baseURL + "/signup";
-  fetch(url, {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8"
-    },
-    body: JSON.stringify(body)
-  })
-    .then(response => response.json())
-    .then(json => {
-      // サインアップ完了処理
-      // TODO Tokenが返ってくるようになったらTokenを保存する
-      AsyncStorage.setItem(asyncStorageKeyPrefix + "token", "");
+  return new Promise((resolve, reject) => {
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify(body)
     })
-    .catch(error => console.log(error));
+      .then(response => {
+        if (response.status === 400) {
+          throw new Error("サインアップに失敗しました。");
+        }
+        return response.json();
+      })
+      .then(json => {
+        // サインアップ完了処理
+        // TODO Tokenが返ってくるようになったらTokenを保存する
+        AsyncStorage.setItem(asyncStorageKeyPrefix + "token", json.token);
+        resolve(json);
+      })
+      .catch(error => reject(error));
+  });
 }

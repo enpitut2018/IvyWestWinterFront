@@ -25,12 +25,11 @@ class PhotoDetailScreen extends Component {
           <Image
             style={styles.userAvatar}
             source={{
-              uri:
-                "https:/s3-ap-northeast-1.amazonaws.com/ivy-west-winter/user-face-photos/bfn7ucj3spn4isqqr1bg.jpg"
+              uri: photo.uploader.avatar_url
             }}
             // TODO サンプル画像差し替え
           />
-          <Text style={styles.userId}>{photo.userid}</Text>
+          <Text style={styles.userId}>{photo.uploader.id}</Text>
         </View>
         <AutoHeightImage width={width} source={{ uri: photo.url }} />
       </ScrollView>

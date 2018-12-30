@@ -20,6 +20,8 @@ import {
   Content
 } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { AsyncStorage } from "react-native";
+import { Actions } from "react-native-router-flux";
 
 export default class UserFilter extends Component {
   constructor(props) {
@@ -33,6 +35,7 @@ export default class UserFilter extends Component {
 
   componentDidMount() {
     this._fetch();
+    this.getFilterUsers();
   }
 
   dummylist = [
@@ -52,6 +55,41 @@ export default class UserFilter extends Component {
         "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/250px-Donald_Trump_official_portrait.jpg"
     }
   ];
+
+  //AsyncStorageにフィルタ対象のユーザー一覧を保存
+  setFilterUsers = async users => {
+    const filterUsers = JSON.stringify(users);
+    console.log(filterUsers);
+    try {
+      await AsyncStorage.setItem("filterUsers", filterUsers);
+    } catch (error) {
+      console.error();
+    }
+  };
+
+  //AsyncStorageからフィルタ済みユーザーを読み込む
+  getFilterUsers = async () => {
+    try {
+      const filterUsers = await AsyncStorage.getItem("filterUsers");
+      if (filterUsers !== null) {
+        this.state.selectedUsers = JSON.parse(filterUsers);
+        this.state.users.map(user => [
+          this.state.selectedUsers.map(suser => {
+            if (user.userId === suser.userId) {
+              user.check = true; //フィルタ済みユーザーのチェックを更新
+            }
+          })
+        ]);
+      }
+    } catch (error) {
+      console.error();
+    }
+  };
+
+  onPressSubmitButton = () => {
+    this.setFilterUsers(this.state.selectedUsers);
+    Actions.pop();
+  };
 
   _fetch = () => {
     this.dummylist.map(item => {
@@ -111,7 +149,7 @@ export default class UserFilter extends Component {
         </View>
         <Footer>
           <Content>
-            <Button full info>
+            <Button full info onPress={() => this.onPressSubmitButton()}>
               <Text>検索</Text>
             </Button>
           </Content>

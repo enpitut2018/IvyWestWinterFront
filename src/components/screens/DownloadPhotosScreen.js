@@ -12,6 +12,7 @@ import TouchablePhoto from "../parts/TouchablePhoto";
 import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 import { Actions } from "react-native-router-flux";
+import { AsyncStorage } from "react-native";
 
 // 画面幅サイズを取得
 const { width } = Dimensions.get("window");
@@ -21,7 +22,8 @@ export default class DownloadPhotosScreen extends Component {
     super(props);
     this.state = {
       photos: [],
-      refreshing: false
+      refreshing: false,
+      filterUsers: null
     };
   }
 
@@ -37,8 +39,25 @@ export default class DownloadPhotosScreen extends Component {
     clearInterval(this.timer);
   }
 
+  //フィルタ対象のユーザーを読み込む
+  getFilterUsers = async () => {
+    try {
+      const filterUsers = await AsyncStorage.getItem("filterUsers");
+      if (filterUsers !== null) {
+        this.state.filterUsers = JSON.parse(filterUsers);
+      }
+    } catch (error) {
+      console.error();
+    }
+  };
+
   reloadPhoto() {
-    url = baseURL + "/downloads";
+    this.getFilterUsers();
+    if (this.state.filterUsers !== null) {
+      console.log(this.state.filterUsers);
+    } else {
+      url = baseURL + "/downloads";
+    }
     getFetchWithToken(url)
       .then(json => {
         this.setState({

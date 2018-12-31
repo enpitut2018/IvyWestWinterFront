@@ -100,6 +100,13 @@ export default class UserFilter extends Component {
     userList.map(user => {
       user.check = false; //チェック状態を初期化
     });
+    userList.sort((user1, user2) => {
+      if (user1.userId < user2.userId) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
     this.setState({ users: userList });
   };
 
@@ -112,6 +119,13 @@ export default class UserFilter extends Component {
         user.check = !user.check;
         if (user.check) {
           this.state.selectedUsers.push(user); //選択済みユーザーを追加
+          this.state.selectedUsers.sort((user1, user2) => {
+            if (user1.userId < user2.userId) {
+              return -1;
+            } else {
+              return 1;
+            }
+          });
         } else {
           const i = this.state.selectedUsers.findIndex(
             //選択済みユーザー一覧から探索

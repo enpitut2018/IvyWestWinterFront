@@ -29,13 +29,13 @@ export default class UserFilter extends Component {
     this.state = {
       users: [],
       selectedUsers: [],
-      update: 0
+      update: 0 //FlatList更新用の変数, これが変化しないとFlatListが更新されない
     };
   }
 
   componentDidMount() {
     this._fetch();
-    this.getFilterUsers();
+    this.loadFilterUsers();
   }
 
   dummylist = [
@@ -57,9 +57,8 @@ export default class UserFilter extends Component {
   ];
 
   //AsyncStorageにフィルタ対象のユーザー一覧を保存
-  setFilterUsers = async users => {
+  saveFilterUsers = async users => {
     const filterUsers = JSON.stringify(users);
-    console.log(filterUsers);
     try {
       await AsyncStorage.setItem("filterUsers", filterUsers);
     } catch (error) {
@@ -68,18 +67,22 @@ export default class UserFilter extends Component {
   };
 
   //AsyncStorageからフィルタ済みユーザーを読み込む
-  getFilterUsers = async () => {
+  loadFilterUsers = async () => {
     try {
       const filterUsers = await AsyncStorage.getItem("filterUsers");
       if (filterUsers !== null) {
         this.state.selectedUsers = JSON.parse(filterUsers);
-        this.state.users.map(user => [
+        console.log(this.state.selectedUsers);
+        const users = this.state.users;
+        users.map(user => {
           this.state.selectedUsers.map(suser => {
             if (user.userId === suser.userId) {
               user.check = true; //フィルタ済みユーザーのチェックを更新
             }
-          })
-        ]);
+          });
+        });
+        console.log(users);
+        this.setState({ users: users });
       }
     } catch (error) {
       console.error();
@@ -87,31 +90,42 @@ export default class UserFilter extends Component {
   };
 
   onPressSubmitButton = () => {
-    this.setFilterUsers(this.state.selectedUsers);
+    this.saveFilterUsers(this.state.selectedUsers);
     Actions.pop();
   };
 
+  //ユーザー一覧の読み込み
   _fetch = () => {
-    this.dummylist.map(item => {
-      item.check = false;
+    const userList = this.dummylist; //TODO: WebAPIから読み込むようにする
+    userList.map(user => {
+      user.check = false; //チェック状態を初期化
     });
-    this.setState({ users: this.dummylist });
+    this.setState({ users: userList });
   };
 
   onPressItem = item => {
-    const tmp = this.state.users;
-    tmp.map(user => {
+    const users = this.state.users;
+    users.map(user => {
+      console.log(user.userId);
+      console.log(user.check);
       if (user.userId == item.userId) {
         user.check = !user.check;
         if (user.check) {
-          this.state.selectedUsers.push(user);
+          this.state.selectedUsers.push(user); //選択済みユーザーを追加
         } else {
-          const i = this.state.selectedUsers.indexOf(user);
-          this.state.selectedUsers.splice(i, 1);
+          const i = this.state.selectedUsers.findIndex(
+            //選択済みユーザー一覧から探索
+            ({ userId }) => userId === user.userId
+          );
+          console.log(i);
+          if (i != -1) {
+            this.state.selectedUsers.splice(i, 1); //選択済みユーザーの一覧から消去
+          }
         }
       }
     });
-    this.setState({ users: tmp, update: this.state.update + 1 });
+    console.log(this.state.selectedUsers);
+    this.setState({ users: users, update: this.state.update + 1 });
   };
 
   render() {
@@ -130,14 +144,14 @@ export default class UserFilter extends Component {
                   </Left>
                   <Body>
                     {item.check ? (
-                      <Text style={{ fontWeight: "bold" }}>{item.userId}</Text>
+                      <Text style={{ fontWeight: "bold" }}>{item.userId}</Text> //チェック済みの場合ユーザーIDを太字
                     ) : (
                       <Text>{item.userId}</Text>
                     )}
                   </Body>
                   <Right>
                     {item.check ? (
-                      <Icon name="check" size={20} color="#00BFFF" />
+                      <Icon name="check" size={20} color="#00BFFF" /> //チェック済みの場合チェックアイコンに色付け
                     ) : (
                       <Icon name="check" size={20} color="#D8D8D8" />
                     )}

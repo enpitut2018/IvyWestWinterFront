@@ -40,7 +40,7 @@ export default class DownloadPhotosScreen extends Component {
   }
 
   //フィルタ対象のユーザーを読み込む
-  getFilterUsers = async () => {
+  loadFilterUsers = async () => {
     try {
       const filterUsers = await AsyncStorage.getItem("filterUsers");
       if (filterUsers !== null) {
@@ -52,9 +52,9 @@ export default class DownloadPhotosScreen extends Component {
   };
 
   reloadPhoto() {
-    this.getFilterUsers();
+    this.loadFilterUsers();
     if (this.state.filterUsers !== null) {
-      console.log(this.state.filterUsers);
+      //console.log(this.state.filterUsers);
     } else {
       url = baseURL + "/downloads";
     }

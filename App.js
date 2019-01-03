@@ -13,7 +13,7 @@ import PhotoDetailScreen from "./src/components/screens/PhotoDetailScreen";
 import UserScreen from "./src/components/screens/UserScreen";
 import { Router, Scene, Tabs, Actions } from "react-native-router-flux";
 import { asyncStorageKeyPrefix } from "./src/libs/const";
-import UserFilter from "./src/components/parts/UserFilter";
+import UserFilterScreen from "./src/components/screens/UserFilterScreen";
 
 const TabIcon = props => {
   const color = props.focused ? "#4c91ff" : "#999";
@@ -78,7 +78,11 @@ class App extends Component {
                 />
               </Tabs>
               {this.photoDetailScene()}
-              <Scene key="UserFilter" title="友達検索" component={UserFilter} />
+              <Scene
+                key="UserFilterScreen"
+                title="友達検索"
+                component={UserFilterScreen}
+              />
             </Scene>
             <Scene
               key="uploads"

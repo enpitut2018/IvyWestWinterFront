@@ -84,17 +84,8 @@ export default class DownloadPhotosScreen extends Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.filterContainer}>
-          <TouchableOpacity onPress={() => Actions.UserFilter()}>
-            <View
-              style={{
-                margin: 10,
-                width: 300,
-                backgroundColor: "#EEE",
-                borderWidth: 2,
-                borderColor: "#EEE",
-                borderRadius: 30
-              }}
-            >
+          <TouchableOpacity onPress={() => Actions.UserFilterScreen()}>
+            <View style={styles.filterSearchBar}>
               <Text>フィルタ</Text>
             </View>
           </TouchableOpacity>
@@ -145,5 +136,13 @@ const styles = StyleSheet.create({
   filterContainer: {
     backgroundColor: "#FFF",
     justifyContent: "center"
+  },
+  filterSearchBar: {
+    margin: 10,
+    width: 300,
+    backgroundColor: "#EEE",
+    borderWidth: 2,
+    borderColor: "#EEE",
+    borderRadius: 30
   }
 });

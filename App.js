@@ -14,6 +14,7 @@ import UserScreen from "./src/components/screens/UserScreen";
 import { Router, Scene, Tabs, Actions } from "react-native-router-flux";
 import { asyncStorageKeyPrefix } from "./src/libs/const";
 import UserFilter from "./src/components/parts/UserFilter";
+import SplashScreen from "react-native-splash-screen";
 
 const TabIcon = props => {
   const color = props.focused ? "#4c91ff" : "#999";
@@ -34,6 +35,9 @@ class App extends Component {
         this.setState({ isLogin: true });
       }
     });
+  }
+  componentDidMount() {
+    SplashScreen.hide();
   }
 
   photoDetailScene = () => (

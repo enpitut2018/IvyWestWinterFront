@@ -35,7 +35,7 @@ export default class DownloadPhotosScreen extends Component {
   }
 
   reloadPhoto() {
-    url = baseURL + "/downloads";
+    url = baseURL + "/downloadPhotoInfos";
     getFetchWithToken(url)
       .then(json => {
         this.setState({

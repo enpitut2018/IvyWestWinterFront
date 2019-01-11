@@ -13,7 +13,7 @@ import PhotoDetailScreen from "./src/components/screens/PhotoDetailScreen";
 import UserScreen from "./src/components/screens/UserScreen";
 import { Router, Scene, Tabs } from "react-native-router-flux";
 import { asyncStorageKeyPrefix } from "./src/libs/const";
-import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from "react-native-splash-screen";
 
 const TabIcon = props => {
   const color = props.focused ? "#4c91ff" : "#999";
@@ -58,7 +58,6 @@ class App extends Component {
             >
               <Tabs
                 key="downloadTab"
-                // TODO カラーの設定
                 activeTintColor="#4c91ff"
                 inactiveTintColor="#000000"
                 indicatorStyle={{ backgroundColor: "#4c91ff", height: 3 }}

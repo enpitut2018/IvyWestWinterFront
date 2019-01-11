@@ -35,7 +35,7 @@ export default class UploadPhotosScreen extends Component {
   }
 
   reloadPhoto() {
-    url = baseURL + "/uploads";
+    url = baseURL + "/uploadPhotoInfos";
     getFetchWithToken(url)
       .then(json => {
         this.setState({

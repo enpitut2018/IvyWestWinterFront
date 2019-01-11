@@ -58,7 +58,6 @@ class App extends Component {
             >
               <Tabs
                 key="downloadTab"
-                // TODO カラーの設定
                 activeTintColor="#4c91ff"
                 inactiveTintColor="#000000"
                 indicatorStyle={{ backgroundColor: "#4c91ff", height: 3 }}

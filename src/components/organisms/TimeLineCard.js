@@ -17,16 +17,11 @@ const TimeLineCard = ({ photo }) => {
       onPress={onPressTimeLineCard}
     >
       <UserInfo
-        avatarURL="http://jiyuubito21102.com/wp-content/uploads/2018/02/yosiokariho.jpg.pagespeed.ce.Shw1B9OFrq.jpg"
-        userID="yoshioka"
-        // TODO きちんとしたデータに差し替える
+        avatarURL={photo.uploader.avatar_url}
+        userID={photo.uploader.id}
       />
       <AutoHeightImage width={width} source={{ uri: photo.url }} />
-      <PeopleAvatarArea
-        photoID={photo.id}
-        people={"test"}
-        // TODO きちんとしたデータに差し替える
-      />
+      <PeopleAvatarArea photoID={photo.id} people={photo.downloaders} />
     </TouchableOpacity>
   );
 };

@@ -25,7 +25,7 @@ GoogleフォトやLINEアルバムとは違って
 
 * API
 
-  https://ivy-west-winter-test.herokuapp.com
+  https://ivy-west-winter.herokuapp.com
 
 
 ## 前提環境

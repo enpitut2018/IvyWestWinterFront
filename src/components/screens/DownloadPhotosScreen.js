@@ -11,8 +11,8 @@ import {
 import TouchablePhoto from "../parts/TouchablePhoto";
 import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
-import { Actions } from "react-native-router-flux";
 import { AsyncStorage } from "react-native";
+import UserFilterBar from "../parts/UserFilterBar";
 
 // 画面幅サイズを取得
 const { width } = Dimensions.get("window");
@@ -44,7 +44,7 @@ export default class DownloadPhotosScreen extends Component {
     try {
       const filterUsers = await AsyncStorage.getItem("filterUsers");
       if (filterUsers !== null) {
-        this.state.filterUsers = JSON.parse(filterUsers);
+        this.setState({ filterUsers: JSON.parse(filterUsers) });
       }
     } catch (error) {
       console.error();
@@ -83,13 +83,7 @@ export default class DownloadPhotosScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <View style={styles.filterContainer}>
-          <TouchableOpacity onPress={() => Actions.UserFilterScreen()}>
-            <View style={styles.filterSearchBar}>
-              <Text>フィルタ</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        <UserFilterBar users={this.state.filterUsers} />
         <ScrollView
           style={styles.container}
           // 引っ張って更新
@@ -132,17 +126,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     margin: 10
-  },
-  filterContainer: {
-    backgroundColor: "#FFF",
-    justifyContent: "center"
-  },
-  filterSearchBar: {
-    margin: 10,
-    width: 300,
-    backgroundColor: "#EEE",
-    borderWidth: 2,
-    borderColor: "#EEE",
-    borderRadius: 30
   }
 });

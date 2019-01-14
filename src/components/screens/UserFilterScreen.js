@@ -72,7 +72,6 @@ export default class UserFilter extends Component {
       const filterUsers = await AsyncStorage.getItem("filterUsers");
       if (filterUsers !== null) {
         this.state.selectedUsers = JSON.parse(filterUsers);
-        console.log(this.state.selectedUsers);
         const users = this.state.users;
         users.map(user => {
           this.state.selectedUsers.map(suser => {
@@ -81,7 +80,6 @@ export default class UserFilter extends Component {
             }
           });
         });
-        console.log(users);
         this.setState({ users: users });
       }
     } catch (error) {
@@ -113,8 +111,6 @@ export default class UserFilter extends Component {
   onPressItem = item => {
     const users = this.state.users;
     users.map(user => {
-      console.log(user.userId);
-      console.log(user.check);
       if (user.userId == item.userId) {
         user.check = !user.check;
         if (user.check) {
@@ -131,14 +127,12 @@ export default class UserFilter extends Component {
             //選択済みユーザー一覧から探索
             ({ userId }) => userId === user.userId
           );
-          console.log(i);
           if (i != -1) {
             this.state.selectedUsers.splice(i, 1); //選択済みユーザーの一覧から消去
           }
         }
       }
     });
-    console.log(this.state.selectedUsers);
     this.setState({ users: users, update: this.state.update + 1 });
   };
 

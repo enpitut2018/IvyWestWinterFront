@@ -23,7 +23,7 @@ export default class DownloadPhotosScreen extends Component {
     this.state = {
       photos: [],
       refreshing: false,
-      filterUsers: null
+      filterUsers: []
     };
   }
 
@@ -32,7 +32,7 @@ export default class DownloadPhotosScreen extends Component {
   }
 
   componentDidMount() {
-    this.timer = setInterval(this.autoReload, 1000);
+    this.timer = setInterval(this.loadFilterUsers, 500); //フィルタされたユーザーリストと同期用
   }
 
   componentWillUnMount() {
@@ -42,9 +42,19 @@ export default class DownloadPhotosScreen extends Component {
   //フィルタ対象のユーザーを読み込む
   loadFilterUsers = async () => {
     try {
-      const filterUsers = await AsyncStorage.getItem("filterUsers");
-      if (filterUsers !== null) {
-        this.setState({ filterUsers: JSON.parse(filterUsers) });
+      targetFilterUsers = await AsyncStorage.getItem("filterUsers");
+      if (targetFilterUsers !== null) {
+        targetFilterUsers = JSON.parse(targetFilterUsers);
+        // フィルタリストが更新されていたら画像をリロード
+        if (
+          !(
+            JSON.stringify(this.state.filterUsers) ===
+            JSON.stringify(targetFilterUsers)
+          )
+        ) {
+          this.setState({ filterUsers: targetFilterUsers });
+          this.reloadPhoto();
+        }
       }
     } catch (error) {
       console.error();
@@ -52,12 +62,16 @@ export default class DownloadPhotosScreen extends Component {
   };
 
   reloadPhoto() {
-    this.loadFilterUsers();
-    if (this.state.filterUsers !== null) {
-      //console.log(this.state.filterUsers);
-    } else {
-      url = baseURL + "/downloads";
+    url = baseURL + "/downloads";
+    if (this.state.filterUsers.length !== 0) {
+      url = baseURL + "/downloadPhotoInfos?userid=";
+      this.state.filterUsers.map(user => {
+        url += user.userId + ",";
+      });
+      url = url.slice(0, -1); //末尾の,を削除
     }
+    console.log(url);
+    /*
     getFetchWithToken(url)
       .then(json => {
         this.setState({
@@ -68,6 +82,7 @@ export default class DownloadPhotosScreen extends Component {
       .catch(error => {
         console.log(error);
       });
+      */
   }
 
   // リフレッシュ非表示のため_onRefreshと似ているが定義した

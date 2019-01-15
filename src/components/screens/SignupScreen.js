@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import {
   Button,
   Container,
@@ -22,13 +22,21 @@ export default class SigninScreen extends Component {
   }
 
   onPushSubmit() {
-    try {
-      signup(this.state.userId, this.state.pass);
-      // TODO APIからTokenが返って来たら保存してtabに遷移させる
-      Actions.reset("auth");
-    } catch (error) {
-      console.error(error);
-    }
+    signup(this.state.userId, this.state.pass)
+      .then(json => {
+        Actions.reset("tab");
+      })
+      .catch(error => {
+        return Alert.alert(
+          error.message,
+          "サインアップに失敗しました。やり直してください。",
+          [
+            {
+              text: "OK"
+            }
+          ]
+        );
+      });
   }
 
   render() {

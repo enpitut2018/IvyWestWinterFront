@@ -25,7 +25,8 @@ export default class DownloadPhotosScreen extends Component {
       photos: [],
       refreshing: false,
       filterUsers: [],
-      avatarSource: InitialIcon
+      avatarSource: InitialIcon,
+      userid: null
     };
   }
 
@@ -46,10 +47,12 @@ export default class DownloadPhotosScreen extends Component {
     url = baseURL + "/user";
     getFetchWithToken(url)
       .then(json => {
-        if (json.avatarurl) {
+        if (json !== null) {
           const source = { uri: json.avatarurl };
+          const id = json.userid;
           this.setState({
-            avatarSource: source
+            avatarSource: source,
+            userid: id
           });
         }
       })
@@ -120,6 +123,7 @@ export default class DownloadPhotosScreen extends Component {
     return (
       <View style={{ flex: 1 }}>
         <UserFilterBar
+          userid={this.state.userid}
           avatar={this.state.avatarSource}
           users={this.state.filterUsers}
         />

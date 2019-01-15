@@ -17,7 +17,8 @@ import {
   Footer,
   Button,
   Text,
-  Content
+  Content,
+  CheckBox
 } from "native-base";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { AsyncStorage } from "react-native";
@@ -160,25 +161,35 @@ export default class UserFilter extends Component {
               keyExtractor={item => item.userid}
               extraData={this.state.update}
               renderItem={({ item }) => (
-                <ListItem avatar onPress={() => this.onPressItem(item)}>
-                  <Left>
-                    <Thumbnail small source={{ uri: item.avatarurl }} />
-                  </Left>
-                  <Body>
-                    {item.check ? (
-                      <Text style={{ fontWeight: "bold" }}>{item.userid}</Text> //チェック済みの場合ユーザーIDを太字
-                    ) : (
-                      <Text>{item.userid}</Text>
-                    )}
-                  </Body>
-                  <Right>
-                    {item.check ? (
-                      <Icon name="check" size={20} color="#00BFFF" /> //チェック済みの場合チェックアイコンに色付け
-                    ) : (
-                      <Icon name="check" size={20} color="#D8D8D8" />
-                    )}
-                  </Right>
-                </ListItem>
+                <View>
+                  {!(item.userid === this.props.userid) && ( //自身のidの表示を除外
+                    <ListItem
+                      noBorder
+                      avatar
+                      style={{ paddingHorizontal: 10 }}
+                      onPress={() => this.onPressItem(item)}
+                    >
+                      <Left>
+                        <Thumbnail small source={{ uri: item.avatarurl }} />
+                      </Left>
+                      <Body>
+                        {item.check ? (
+                          <Text style={{ fontWeight: "bold" }}>
+                            {item.userid}
+                          </Text> //チェック済みの場合ユーザーIDを太字
+                        ) : (
+                          <Text>{item.userid}</Text>
+                        )}
+                      </Body>
+                      <Right>
+                        <CheckBox
+                          checked={item.check}
+                          onPress={() => this.onPressItem(item)}
+                        />
+                      </Right>
+                    </ListItem>
+                  )}
+                </View>
               )}
             />
           </List>

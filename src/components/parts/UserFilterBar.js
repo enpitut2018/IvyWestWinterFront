@@ -15,13 +15,15 @@ import AddUserIcon from "../../assets/add_user_icon.png";
 
 const { window } = Dimensions.get("window");
 
-const UserFilterBar = ({ avatar, users }) => {
+const UserFilterBar = ({ userid, avatar, users }) => {
   var otherAvatarList = [];
   // propsで渡されたフィルタ対象のアイコンを読み込む
   if (users !== null) {
     users.map(user => {
       otherAvatarList.push(
-        <TouchableOpacity onPress={() => Actions.UserFilterScreen()}>
+        <TouchableOpacity
+          onPress={() => Actions.UserFilterScreen({ userid: userid })}
+        >
           <Image
             source={{ uri: user.avatarurl }}
             style={styles.otherUserAvatar}
@@ -39,7 +41,9 @@ const UserFilterBar = ({ avatar, users }) => {
         style={styles.otherUsersArea}
       >
         {otherAvatarList}
-        <TouchableOpacity onPress={() => Actions.UserFilterScreen()}>
+        <TouchableOpacity
+          onPress={() => Actions.UserFilterScreen({ userid: userid })}
+        >
           <Image source={AddUserIcon} style={styles.addUserIcon} />
         </TouchableOpacity>
       </ScrollView>

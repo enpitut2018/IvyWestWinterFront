@@ -80,7 +80,7 @@ class App extends Component {
               {this.photoDetailScene()}
               <Scene
                 key="UserFilterScreen"
-                title="友達検索"
+                title="写っている人を追加"
                 component={UserFilterScreen}
               />
             </Scene>

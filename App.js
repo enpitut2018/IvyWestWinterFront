@@ -106,7 +106,7 @@ class App extends Component {
             </Scene>
             <Scene
               key="user"
-              title="ユーザー情報"
+              title="マイページ"
               component={UserScreen}
               tabBarLabel="ユーザー"
               iconName="user"
@@ -124,7 +124,11 @@ class App extends Component {
           <Scene key="auth" initial={this.state.isLogin == false}>
             <Scene key="authHome" component={AuthScreen} />
             <Scene key="signin" title="サインイン" component={SigninScreen} />
-            <Scene key="signup" title="サインアップ" component={SignupScreen} />
+            <Scene
+              key="signup"
+              title="FaceCafeへようこそ！"
+              component={SignupScreen}
+            />
           </Scene>
         </Scene>
       </Router>

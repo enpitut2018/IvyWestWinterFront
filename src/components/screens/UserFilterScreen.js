@@ -194,7 +194,7 @@ export default class UserFilter extends Component {
             />
           </List>
         </View>
-        <Footer>
+        <Footer style={{ marginBottom: -10 }}>
           <Content>
             <Button full info onPress={() => this.onPressSubmitButton()}>
               <Text>検索</Text>

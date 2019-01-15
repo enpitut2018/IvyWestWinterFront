@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
     height: 26,
     width: 26,
     margin: 12,
-    backgroundColor: "#FFF",
-    borderRadius: 13
+    marginHorizontal: 5,
+    backgroundColor: "#FFF"
   },
   otherUsersArea: {}
 });

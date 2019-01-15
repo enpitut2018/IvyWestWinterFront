@@ -13,6 +13,7 @@ import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 import { AsyncStorage } from "react-native";
 import UserFilterBar from "../parts/UserFilterBar";
+import InitialIcon from "../../assets/initial_icon.png";
 
 // 画面幅サイズを取得
 const { width } = Dimensions.get("window");
@@ -23,7 +24,8 @@ export default class DownloadPhotosScreen extends Component {
     this.state = {
       photos: [],
       refreshing: false,
-      filterUsers: []
+      filterUsers: [],
+      avatarSource: InitialIcon
     };
   }
 
@@ -32,12 +34,29 @@ export default class DownloadPhotosScreen extends Component {
   }
 
   componentDidMount() {
+    this.loadUserAvatar();
     this.timer = setInterval(this.loadFilterUsers, 500); //フィルタされたユーザーリストと同期用
   }
 
   componentWillUnMount() {
     clearInterval(this.timer);
   }
+
+  loadUserAvatar = () => {
+    url = baseURL + "/user";
+    getFetchWithToken(url)
+      .then(json => {
+        if (json.avatarurl) {
+          const source = { uri: json.avatarurl };
+          this.setState({
+            avatarSource: source
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   //フィルタ対象のユーザーを読み込む
   loadFilterUsers = async () => {
@@ -64,13 +83,15 @@ export default class DownloadPhotosScreen extends Component {
   reloadPhoto() {
     url = baseURL + "/downloads";
     if (this.state.filterUsers.length !== 0) {
+      console.log(this.state.filterUsers);
       url = baseURL + "/downloadPhotoInfos?userid=";
       this.state.filterUsers.map(user => {
-        url += user.userId + ",";
+        url += user.userid + ",";
       });
       url = url.slice(0, -1); //末尾の,を削除
     }
     console.log(url);
+    // TODO: コメントアウトを消す
     /*
     getFetchWithToken(url)
       .then(json => {
@@ -98,7 +119,10 @@ export default class DownloadPhotosScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <UserFilterBar users={this.state.filterUsers} />
+        <UserFilterBar
+          avatar={this.state.avatarSource}
+          users={this.state.filterUsers}
+        />
         <ScrollView
           style={styles.container}
           // 引っ張って更新

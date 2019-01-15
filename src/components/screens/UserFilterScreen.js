@@ -22,6 +22,8 @@ import {
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { AsyncStorage } from "react-native";
 import { Actions } from "react-native-router-flux";
+import { getFetchWithToken } from "../../models/fetchUtil";
+import { baseURL } from "../../libs/const";
 
 export default class UserFilter extends Component {
   constructor(props) {
@@ -35,22 +37,21 @@ export default class UserFilter extends Component {
 
   componentDidMount() {
     this._fetch();
-    this.loadFilterUsers();
   }
 
   dummylist = [
     {
-      userId: "agatsuma",
+      userid: "agatsuma",
       avatarSource:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/George-W-Bush.jpeg/245px-George-W-Bush.jpeg"
     },
     {
-      userId: "ivy",
+      userid: "ivy",
       avatarSource:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/250px-President_Barack_Obama.jpg"
     },
     {
-      userId: "hoge",
+      userid: "hoge",
       avatarSource:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/250px-Donald_Trump_official_portrait.jpg"
     }
@@ -67,7 +68,7 @@ export default class UserFilter extends Component {
   };
 
   //AsyncStorageからフィルタ済みユーザーを読み込む
-  loadFilterUsers = async () => {
+  loadFilteredUsers = async () => {
     try {
       const filterUsers = await AsyncStorage.getItem("filterUsers");
       if (filterUsers !== null) {
@@ -75,7 +76,7 @@ export default class UserFilter extends Component {
         const users = this.state.users;
         users.map(user => {
           this.state.selectedUsers.map(suser => {
-            if (user.userId === suser.userId) {
+            if (user.userid === suser.userid) {
               user.check = true; //フィルタ済みユーザーのチェックを更新
             }
           });
@@ -94,29 +95,41 @@ export default class UserFilter extends Component {
 
   //ユーザー一覧の読み込み
   _fetch = () => {
-    const userList = this.dummylist; //TODO: WebAPIから読み込むようにする
-    userList.map(user => {
-      user.check = false; //チェック状態を初期化
-    });
-    userList.sort((user1, user2) => {
-      if (user1.userId < user2.userId) {
-        return -1;
-      } else {
-        return 1;
-      }
-    });
-    this.setState({ users: userList });
+    userList = [];
+    url = baseURL + "/users";
+    //WebAPIからユーザー一覧を読み込む
+    getFetchWithToken(url)
+      .then(json => {
+        console.log(json);
+        userList = json;
+        userList.map(user => {
+          user.check = false; //チェック状態を初期化
+        });
+        userList.sort((user1, user2) => {
+          //リストを整列
+          if (user1.userid < user2.userid) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
+        this.setState({ users: userList });
+        console.log(this.state.users);
+        this.loadFilteredUsers();
+      })
+      .catch(error => console.error(error));
   };
 
   onPressItem = item => {
     const users = this.state.users;
     users.map(user => {
-      if (user.userId == item.userId) {
+      if (user.userid == item.userid) {
         user.check = !user.check;
         if (user.check) {
           this.state.selectedUsers.push(user); //選択済みユーザーを追加
           this.state.selectedUsers.sort((user1, user2) => {
-            if (user1.userId < user2.userId) {
+            //選択済みユーザーを整列
+            if (user1.userid < user2.userid) {
               return -1;
             } else {
               return 1;
@@ -125,7 +138,7 @@ export default class UserFilter extends Component {
         } else {
           const i = this.state.selectedUsers.findIndex(
             //選択済みユーザー一覧から探索
-            ({ userId }) => userId === user.userId
+            ({ userid }) => userid === user.userid
           );
           if (i != -1) {
             this.state.selectedUsers.splice(i, 1); //選択済みユーザーの一覧から消去
@@ -133,6 +146,7 @@ export default class UserFilter extends Component {
         }
       }
     });
+    // selectedUsersのstateもsetStateしたほうがよい?
     this.setState({ users: users, update: this.state.update + 1 });
   };
 
@@ -143,18 +157,18 @@ export default class UserFilter extends Component {
           <List>
             <FlatList
               data={this.state.users}
-              keyExtractor={item => item.userId}
+              keyExtractor={item => item.userid}
               extraData={this.state.update}
               renderItem={({ item }) => (
                 <ListItem avatar onPress={() => this.onPressItem(item)}>
                   <Left>
-                    <Thumbnail small source={{ url: item.avatarSource }} />
+                    <Thumbnail small source={{ uri: item.avatarurl }} />
                   </Left>
                   <Body>
                     {item.check ? (
-                      <Text style={{ fontWeight: "bold" }}>{item.userId}</Text> //チェック済みの場合ユーザーIDを太字
+                      <Text style={{ fontWeight: "bold" }}>{item.userid}</Text> //チェック済みの場合ユーザーIDを太字
                     ) : (
-                      <Text>{item.userId}</Text>
+                      <Text>{item.userid}</Text>
                     )}
                   </Body>
                   <Right>

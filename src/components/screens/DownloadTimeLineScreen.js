@@ -18,11 +18,11 @@ class DownloadTimeLineScreen extends Component {
   }
 
   componentDidMount() {
-    // this.timer = setInterval(this.autoReload, 1000);
+    this.timer = setInterval(this.autoReload, 1000);
   }
 
   componentWillUnMount() {
-    // clearInterval(this.timer);
+    clearInterval(this.timer);
   }
 
   reloadPhoto() {

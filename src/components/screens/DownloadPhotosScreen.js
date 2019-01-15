@@ -43,6 +43,8 @@ export default class DownloadPhotosScreen extends Component {
     clearInterval(this.timer);
   }
 
+  //フィルタバーとフィルタ画面に自身のアバターとIDを渡すために読み込む
+  //UserFilterBarをcomponentにしてそっちで実装したほうが良い？
   loadUserAvatar = () => {
     url = baseURL + "/user";
     getFetchWithToken(url)
@@ -85,6 +87,7 @@ export default class DownloadPhotosScreen extends Component {
 
   reloadPhoto() {
     url = baseURL + "/downloads";
+    //フィルタ対象があればURLを変更
     if (this.state.filterUsers.length !== 0) {
       console.log(this.state.filterUsers);
       url = baseURL + "/downloadPhotoInfos?userid=";
@@ -94,19 +97,18 @@ export default class DownloadPhotosScreen extends Component {
       url = url.slice(0, -1); //末尾の,を削除
     }
     console.log(url);
-    // TODO: コメントアウトを消す
-    /*
     getFetchWithToken(url)
       .then(json => {
-        this.setState({
-          photos: json.reverse(),
-          refreshing: false
-        });
+        if (json !== null) {
+          this.setState({
+            photos: json.reverse(),
+            refreshing: false
+          });
+        }
       })
       .catch(error => {
         console.log(error);
       });
-      */
   }
 
   // リフレッシュ非表示のため_onRefreshと似ているが定義した

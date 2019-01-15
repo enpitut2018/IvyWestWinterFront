@@ -13,20 +13,30 @@ import { List, ListItem, Thumbnail } from "native-base";
 import { Actions } from "react-native-router-flux";
 import AddUserIcon from "../../assets/add_user_icon.png";
 
-const { window } = Dimensions.get("window");
-
+//componetで実装してstateをもたせるべきだったかも
 const UserFilterBar = ({ userid, avatar, users }) => {
-  var otherAvatarList = [];
+  let hasUserId = false; //自分のIDを読み込んだ後にフィルタ画面に遷移できるようにするための変数
+  let otherAvatarList = [];
   // propsで渡されたフィルタ対象のアイコンを読み込む
-  if (users !== null) {
+  if (users !== null && userid !== null) {
+    hasUserId = true;
     users.map(user => {
       otherAvatarList.push(
         <TouchableOpacity
           onPress={() => Actions.UserFilterScreen({ userid: userid })}
+          key={user.userid}
         >
           <Image
             source={{ uri: user.avatarurl }}
-            style={styles.otherUserAvatar}
+            style={{
+              height: 30,
+              width: 30,
+              margin: 10,
+              marginHorizontal: 5,
+              backgroundColor: "#F5FCFF",
+              borderRadius: 15,
+              display: hasUserId ? "flex" : "none"
+            }}
           />
         </TouchableOpacity>
       );
@@ -35,16 +45,23 @@ const UserFilterBar = ({ userid, avatar, users }) => {
   return (
     <View style={styles.container}>
       <Image source={avatar} style={styles.userAvatar} />
-      <ScrollView
-        horizontal={true}
-        scrollEnabled={true}
-        style={styles.otherUsersArea}
-      >
+      <ScrollView horizontal={true} scrollEnabled={true}>
         {otherAvatarList}
         <TouchableOpacity
           onPress={() => Actions.UserFilterScreen({ userid: userid })}
+          key="check"
         >
-          <Image source={AddUserIcon} style={styles.addUserIcon} />
+          <Image
+            source={AddUserIcon}
+            style={{
+              height: 26,
+              width: 26,
+              margin: 12,
+              marginHorizontal: 5,
+              backgroundColor: "#FFF",
+              display: hasUserId ? "flex" : "none"
+            }}
+          />
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -88,8 +105,7 @@ const styles = StyleSheet.create({
     margin: 12,
     marginHorizontal: 5,
     backgroundColor: "#FFF"
-  },
-  otherUsersArea: {}
+  }
 });
 
 export default UserFilterBar;

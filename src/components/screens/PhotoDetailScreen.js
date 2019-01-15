@@ -21,7 +21,6 @@ class PhotoDetailScreen extends Component {
   }
 
   componentWillMount() {
-    // TODO 画像表示速度に影響があるかを調査する
     Image.getSize(this.props.photo.url, (photoWidth, photoHeight) => {
       this.setState({
         photoWidth: photoWidth,

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Dimensions, View } from "react-native";
-import PeopleAvatarArea from "../parts/PeopleAvatarArea";
+import { Text } from "native-base";
 import AutoHeightImage from "react-native-auto-height-image";
 import { createImageProgress } from "react-native-image-progress";
 import * as Progress from "react-native-progress";
@@ -16,9 +16,8 @@ const PhotoDetail = ({ photo, photoWidth, photoHeight }) => {
   return (
     <View>
       <UserInfo
-        avatarURL="http://jiyuubito21102.com/wp-content/uploads/2018/02/yosiokariho.jpg.pagespeed.ce.Shw1B9OFrq.jpg"
-        userID="yoshioka"
-        // TODO きちんとしたデータに差し替える
+        avatarURL={photo.uploader.avatar_url}
+        userID={photo.uploader.id}
       />
       <ImageWithProgress
         style={{
@@ -29,11 +28,11 @@ const PhotoDetail = ({ photo, photoWidth, photoHeight }) => {
         source={{ uri: photo.url }}
         indicator={Progress.Pie}
       />
-      <PeopleList
-        photoID={photo.id}
-        people={"test"}
-        // TODO きちんとしたデータに差し替える
-      />
+      {photo.downloaders ? (
+        <PeopleList photoID={photo.id} people={photo.downloaders} />
+      ) : (
+        <Text>写っている人はいません</Text>
+      )}
     </View>
   );
 };

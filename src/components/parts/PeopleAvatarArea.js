@@ -7,16 +7,14 @@ const PeopleAvatarArea = ({ photoID, people }) => {
     <View>
       <Text style={styles.text}>写っている人</Text>
       <View style={styles.peopleAvatarArea}>
-        {[...Array(15)].map((_, i) => {
+        {people.map((p, i) => {
           return (
             <Image
               key={`${photoID}-${i}`}
               style={styles.peopleAvatar}
               source={{
-                uri:
-                  "http://img3.goipadwallpapers.com/2013/12/06/cc20664ab8879c36_2048x2048.jpg"
+                uri: p.avatar_url
               }}
-              // TODO サンプル画像差し替え
             />
           );
         })}

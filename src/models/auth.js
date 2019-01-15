@@ -54,7 +54,6 @@ export function signup(userId, pass) {
       })
       .then(json => {
         // サインアップ完了処理
-        // TODO Tokenが返ってくるようになったらTokenを保存する
         AsyncStorage.setItem(asyncStorageKeyPrefix + "token", json.token);
         resolve(json);
       })

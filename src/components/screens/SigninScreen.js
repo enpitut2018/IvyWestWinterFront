@@ -29,7 +29,7 @@ export default class SigninScreen extends Component {
       .catch(error => {
         return Alert.alert(
           error.message,
-          "ユーザIDもしくはパスワードが間違っています。",
+          "ユーザーIDもしくはパスワードが間違っています。",
           [
             {
               text: "OK"
@@ -48,7 +48,7 @@ export default class SigninScreen extends Component {
               <Input
                 onChangeText={text => this.setState({ userId: text })}
                 value={this.state.userId}
-                placeholder="ユーザID"
+                placeholder="ユーザーID"
                 autoCapitalize="none"
               />
             </Item>

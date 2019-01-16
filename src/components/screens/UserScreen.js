@@ -25,6 +25,7 @@ class UserScreen extends Component {
     super(props);
     this.state = {
       userId: "",
+      existAvatarSource: false,
       avatarSource: InitialIcon
     };
   }
@@ -37,7 +38,12 @@ class UserScreen extends Component {
           const source = { uri: json.avatarurl };
           this.setState({
             userId: json.userid,
+            existAvatarSource: true,
             avatarSource: source
+          });
+        } else {
+          this.setState({
+            userId: json.userid
           });
         }
       })
@@ -47,29 +53,58 @@ class UserScreen extends Component {
   }
 
   onPushUserAvatar() {
-    ImagePicker.launchCamera(options, response => {
-      console.log("Response = ", response);
+    if (this.state.existAvatarSource) {
+      // すでに顔画像が登録されている場合はカメラを起動
+      ImagePicker.showImagePicker(options, response => {
+        console.log("Response = ", response);
 
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
-      } else {
-        const source = { uri: response.uri };
-        let body = { source: response.data };
-        postFetchWithToken(baseURL + "/uploadUserFace", body)
-          .then(json => {
-            this.setState({
-              avatarSource: source
+        if (response.didCancel) {
+          console.log("User cancelled image picker");
+        } else if (response.error) {
+          console.log("ImagePicker Error: ", response.error);
+        } else if (response.customButton) {
+          console.log("User tapped custom button: ", response.customButton);
+        } else {
+          const source = { uri: response.uri };
+          let body = { source: response.data };
+          postFetchWithToken(baseURL + "/uploadUserFace", body)
+            .then(json => {
+              this.setState({
+                existAvatarSource: true,
+                avatarSource: source
+              });
+            })
+            .catch(error => {
+              console.error(error);
             });
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }
-    });
+        }
+      });
+    } else {
+      // 顔画像登録後はギャラリーからの選択も可能
+      ImagePicker.launchCamera(options, response => {
+        console.log("Response = ", response);
+
+        if (response.didCancel) {
+          console.log("User cancelled image picker");
+        } else if (response.error) {
+          console.log("ImagePicker Error: ", response.error);
+        } else if (response.customButton) {
+          console.log("User tapped custom button: ", response.customButton);
+        } else {
+          const source = { uri: response.uri };
+          let body = { source: response.data };
+          postFetchWithToken(baseURL + "/uploadUserFace", body)
+            .then(json => {
+              this.setState({
+                avatarSource: source
+              });
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        }
+      });
+    }
   }
 
   onPushSignout() {
@@ -81,24 +116,28 @@ class UserScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={{ fontSize: 20, marginBottom: 10 }}>
-          {this.state.userId}
-        </Text>
-        <Image source={this.state.avatarSource} style={styles.userAvatar} />
+        <View style={styles.userInfoArea}>
+          <Image source={this.state.avatarSource} style={styles.userAvatar} />
+          <Text style={styles.userId}>{this.state.userId}</Text>
+        </View>
         <Button
           block
-          style={styles.button}
+          style={styles.photoButton}
           onPress={() => this.onPushUserAvatar()}
         >
-          <Text>ユーザー画像を変更</Text>
+          <Text>
+            {this.state.existAvatarSource
+              ? "アバター画像を変更する"
+              : "顔認識用画像(アバター画像)を登録する"}
+          </Text>
         </Button>
         <Button
           block
           warning
-          style={styles.button}
+          style={styles.signoutButton}
           onPress={() => this.onPushSignout()}
         >
-          <Text>Sign out</Text>
+          <Text>サインアウト</Text>
         </Button>
       </View>
     );
@@ -112,16 +151,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F5FCFF"
   },
-  button: {
+  userInfoArea: {
+    flex: 2,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  photoButton: {
     marginRight: 20,
     marginLeft: 20,
-    marginBottom: 30
+    marginBottom: 25
   },
+  signoutButton: {
+    marginRight: 20,
+    marginLeft: 20,
+    marginBottom: 60
+  },
+  userId: { fontSize: 30, fontWeight: "bold", marginBottom: 10 },
   userAvatar: {
-    width: 100,
-    height: 100,
+    width: 180,
+    height: 180,
     backgroundColor: "white",
-    borderRadius: 50,
+    borderRadius: 90,
     marginBottom: 20
   }
 });

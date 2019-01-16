@@ -86,11 +86,11 @@ export default class DownloadPhotosScreen extends Component {
   };
 
   reloadPhoto() {
-    url = baseURL + "/downloads";
+    let url = baseURL + "/downloadPhotoInfos";
     //フィルタ対象があればURLを変更
     if (this.state.filterUsers.length !== 0) {
       console.log(this.state.filterUsers);
-      url = baseURL + "/downloadPhotoInfos?userid=";
+      url += "?userid=";
       this.state.filterUsers.map(user => {
         url += user.userid + ",";
       });

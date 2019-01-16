@@ -90,7 +90,7 @@ export default class DownloadPhotosScreen extends Component {
     //フィルタ対象があればURLを変更
     if (this.state.filterUsers.length !== 0) {
       console.log(this.state.filterUsers);
-      url += "?userid=";
+      url += "?userids=";
       this.state.filterUsers.map(user => {
         url += user.userid + ",";
       });
@@ -102,6 +102,11 @@ export default class DownloadPhotosScreen extends Component {
         if (json !== null) {
           this.setState({
             photos: json.reverse(),
+            refreshing: false
+          });
+        } else {
+          this.setState({
+            photos: [],
             refreshing: false
           });
         }

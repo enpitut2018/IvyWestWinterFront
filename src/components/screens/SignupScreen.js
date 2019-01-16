@@ -24,18 +24,23 @@ export default class SigninScreen extends Component {
   onPushSubmit() {
     signup(this.state.userId, this.state.pass)
       .then(json => {
-        Actions.reset("tab");
-      })
-      .catch(error => {
-        return Alert.alert(
-          error.message,
-          "サインアップに失敗しました。やり直してください。",
+        Alert.alert(
+          "新規登録完了",
+          "まずはマイページで顔写真を登録しましょう！",
           [
             {
               text: "OK"
             }
           ]
         );
+        Actions.reset("tab");
+      })
+      .catch(error => {
+        return Alert.alert(error.message, "やり直してください。", [
+          {
+            text: "OK"
+          }
+        ]);
       });
   }
 
@@ -48,7 +53,7 @@ export default class SigninScreen extends Component {
               <Input
                 onChangeText={text => this.setState({ userId: text })}
                 value={this.state.userId}
-                placeholder="ユーザID"
+                placeholder="ユーザーID"
                 autoCapitalize="none"
               />
             </Item>
@@ -63,10 +68,11 @@ export default class SigninScreen extends Component {
             </Item>
             <Button
               block
+              info
               style={styles.button}
               onPress={() => this.onPushSubmit()}
             >
-              <Text>サインアップ</Text>
+              <Text>新規登録する</Text>
             </Button>
           </Form>
         </Content>

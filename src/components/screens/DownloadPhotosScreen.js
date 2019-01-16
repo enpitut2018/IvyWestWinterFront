@@ -97,16 +97,18 @@ export default class DownloadPhotosScreen extends Component {
       url = url.slice(0, -1); //末尾の,を削除
     }
     console.log(url);
+    //一旦消す
+    //ローディング画面つけられるとよかった
+    this.setState({
+      photos: [],
+      refreshing: false
+    });
     getFetchWithToken(url)
       .then(json => {
+        //console.log(json);
         if (json !== null) {
           this.setState({
             photos: json.reverse(),
-            refreshing: false
-          });
-        } else {
-          this.setState({
-            photos: [],
             refreshing: false
           });
         }
@@ -127,6 +129,8 @@ export default class DownloadPhotosScreen extends Component {
   };
 
   render() {
+    let photoIds = [];
+    console.log(photoIds);
     return (
       <View style={{ flex: 1 }}>
         <UserFilterBar
@@ -146,14 +150,18 @@ export default class DownloadPhotosScreen extends Component {
         >
           <View style={styles.photoView}>
             {this.state.photos.map((photo, index) => {
-              return (
-                <TouchablePhoto
-                  key={photo.id}
-                  photo={photo}
-                  width={width / 3}
-                  height={width / 3}
-                />
-              );
+              if (!photoIds.includes(photo.id)) {
+                //APIからIDが重複した画像が返ってきた場合に描画を避ける
+                photoIds.push(photo.id);
+                return (
+                  <TouchablePhoto
+                    key={photo.id}
+                    photo={photo}
+                    width={width / 3}
+                    height={width / 3}
+                  />
+                );
+              }
             })}
           </View>
         </ScrollView>

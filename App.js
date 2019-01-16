@@ -11,8 +11,9 @@ import DownloadPhotosScreen from "./src/components/screens/DownloadPhotosScreen"
 import UploadPhotosScreen from "./src/components/screens/UploadPhotosScreen";
 import PhotoDetailScreen from "./src/components/screens/PhotoDetailScreen";
 import UserScreen from "./src/components/screens/UserScreen";
-import { Router, Scene, Tabs } from "react-native-router-flux";
+import { Router, Scene, Tabs, Actions } from "react-native-router-flux";
 import { asyncStorageKeyPrefix } from "./src/libs/const";
+import UserFilterScreen from "./src/components/screens/UserFilterScreen";
 import SplashScreen from "react-native-splash-screen";
 
 const TabIcon = props => {
@@ -80,6 +81,11 @@ class App extends Component {
                 />
               </Tabs>
               {this.photoDetailScene()}
+              <Scene
+                key="UserFilterScreen"
+                title="写っている人を追加"
+                component={UserFilterScreen}
+              />
             </Scene>
             <Scene
               key="uploads"

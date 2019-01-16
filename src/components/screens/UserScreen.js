@@ -11,7 +11,7 @@ import { baseURL } from "../../libs/const";
 const options = {
   cameraType: "front", // フロントカメラで起動 TODO フロント固定
   mediaType: "photo",
-  quality: "0.5",
+  quality: 0.5,
   allowsEditing: true,
   storageOptions: {
     skipBackup: true, // iCloudのバックアップをしない

@@ -4,11 +4,16 @@ import {
   View,
   ScrollView,
   RefreshControl,
-  Dimensions
+  Dimensions,
+  Text,
+  TouchableOpacity
 } from "react-native";
 import TouchablePhoto from "../parts/TouchablePhoto";
 import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
+import { AsyncStorage } from "react-native";
+import UserFilterBar from "../parts/UserFilterBar";
+import InitialIcon from "../../assets/initial_icon.png";
 
 // 画面幅サイズを取得
 const { width } = Dimensions.get("window");
@@ -18,7 +23,10 @@ export default class DownloadPhotosScreen extends Component {
     super(props);
     this.state = {
       photos: [],
-      refreshing: false
+      refreshing: false,
+      filterUsers: [],
+      avatarSource: InitialIcon,
+      userid: null
     };
   }
 
@@ -27,21 +35,76 @@ export default class DownloadPhotosScreen extends Component {
   }
 
   componentDidMount() {
-    this.timer = setInterval(this.autoReload, 1000);
+    this.loadUserAvatar();
+    this.timer = setInterval(this.loadFilterUsers, 500); //フィルタされたユーザーリストと同期用
   }
 
   componentWillUnMount() {
     clearInterval(this.timer);
   }
 
-  reloadPhoto() {
-    url = baseURL + "/downloadPhotoInfos";
+  //フィルタバーとフィルタ画面に自身のアバターとIDを渡すために読み込む
+  //UserFilterBarをcomponentにしてそっちで実装したほうが良い？
+  loadUserAvatar = () => {
+    url = baseURL + "/user";
     getFetchWithToken(url)
       .then(json => {
-        this.setState({
-          photos: json.reverse(),
-          refreshing: false
-        });
+        if (json !== null) {
+          const source = { uri: json.avatarurl };
+          const id = json.userid;
+          this.setState({
+            avatarSource: source,
+            userid: id
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  //フィルタ対象のユーザーを読み込む
+  loadFilterUsers = async () => {
+    try {
+      targetFilterUsers = await AsyncStorage.getItem("filterUsers");
+      if (targetFilterUsers !== null) {
+        targetFilterUsers = JSON.parse(targetFilterUsers);
+        // フィルタリストが更新されていたら画像をリロード
+        if (
+          !(
+            JSON.stringify(this.state.filterUsers) ===
+            JSON.stringify(targetFilterUsers)
+          )
+        ) {
+          this.setState({ filterUsers: targetFilterUsers });
+          this.reloadPhoto();
+        }
+      }
+    } catch (error) {
+      console.error();
+    }
+  };
+
+  reloadPhoto() {
+    let url = baseURL + "/downloadPhotoInfos";
+    //フィルタ対象があればURLを変更
+    if (this.state.filterUsers.length !== 0) {
+      console.log(this.state.filterUsers);
+      url += "?userid=";
+      this.state.filterUsers.map(user => {
+        url += user.userid + ",";
+      });
+      url = url.slice(0, -1); //末尾の,を削除
+    }
+    console.log(url);
+    getFetchWithToken(url)
+      .then(json => {
+        if (json !== null) {
+          this.setState({
+            photos: json.reverse(),
+            refreshing: false
+          });
+        }
       })
       .catch(error => {
         console.log(error);
@@ -60,29 +123,36 @@ export default class DownloadPhotosScreen extends Component {
 
   render() {
     return (
-      <ScrollView
-        style={styles.container}
-        // 引っ張って更新
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh}
-          />
-        }
-      >
-        <View style={styles.photoView}>
-          {this.state.photos.map((photo, index) => {
-            return (
-              <TouchablePhoto
-                key={photo.id}
-                photo={photo}
-                width={width / 3}
-                height={width / 3}
-              />
-            );
-          })}
-        </View>
-      </ScrollView>
+      <View style={{ flex: 1 }}>
+        <UserFilterBar
+          userid={this.state.userid}
+          avatar={this.state.avatarSource}
+          users={this.state.filterUsers}
+        />
+        <ScrollView
+          style={styles.container}
+          // 引っ張って更新
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }
+        >
+          <View style={styles.photoView}>
+            {this.state.photos.map((photo, index) => {
+              return (
+                <TouchablePhoto
+                  key={photo.id}
+                  photo={photo}
+                  width={width / 3}
+                  height={width / 3}
+                />
+              );
+            })}
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }

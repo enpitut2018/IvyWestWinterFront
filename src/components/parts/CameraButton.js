@@ -9,7 +9,7 @@ import { baseURL } from "../../libs/const";
 // react-native-image-picker用オプション変数
 const options = {
   mediaType: "photo",
-  quality: "0.5",
+  quality: 0.5,
   storageOptions: {
     skipBackup: true, // iCloudのバックアップをしない
     path: "ivy-west-winter", // 画像を保存するフォルダ名

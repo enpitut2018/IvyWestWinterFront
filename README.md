@@ -28,6 +28,22 @@ GoogleフォトやLINEアルバムとは違って
   https://ivy-west-winter.herokuapp.com
 
 
+## リポジトリ
+
+* [アプリ](https://github.com/enpitut2018/IvyWestWinterFront)
+
+* [API](https://github.com/enpitut2018/IvyWestWinterServer)
+
+
+## その他チーム用URL
+
+* [プロダクトバックログ](https://github.com/enpitut2018/IvyWestWinterFront/projects/1)
+
+* [フロントwiki](https://github.com/enpitut2018/IvyWestWinterFront/wiki)
+
+* [サーバサイドwiki](https://github.com/enpitut2018/IvyWestWinterServer/wiki)
+
+
 ## 前提環境
 
 以下の環境で動作確認を行っている

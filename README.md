@@ -21,7 +21,12 @@ GoogleフォトやLINEアルバムとは違って
 
 * フロント
 
-  アプリ作成予定
+  Android(apkファイル)
+
+  ![Androidアプリ](./release/android_apk_qr.png)
+
+  その他、多数デモ機を用意しています。
+
 
 * API
 

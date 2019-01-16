@@ -7,20 +7,19 @@ const PeopleList = ({ photoID, people }) => {
     <View style={styles.peopleList}>
       <Text style={styles.text}>写っている人</Text>
       <List>
-        {[...Array(15)].map((_, i) => {
+        {people.map((p, i) => {
           return (
             <ListItem avatar key={`${photoID}-${i}`}>
               <Left>
                 <Thumbnail
                   small
                   source={{
-                    uri:
-                      "http://img3.goipadwallpapers.com/2013/12/06/cc20664ab8879c36_2048x2048.jpg"
+                    uri: p.avatar_url
                   }}
                 />
               </Left>
               <Body>
-                <Text style={{ marginTop: 10 }}>picachu</Text>
+                <Text style={{ marginTop: 10 }}>{p.id}</Text>
               </Body>
             </ListItem>
           );

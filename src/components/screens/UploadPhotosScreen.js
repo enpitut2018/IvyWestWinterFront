@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import {
-  StyleSheet,
-  View,
-  ScrollView,
+  Dimensions,
   RefreshControl,
-  Dimensions
+  ScrollView,
+  StyleSheet,
+  View
 } from "react-native";
-import TouchablePhoto from "../../components/common/TouchablePhoto";
+import TouchablePhoto from "../parts/TouchablePhoto";
 import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 
 // 画面幅サイズを取得
 const { width } = Dimensions.get("window");
 
-export default class DownloadPhotosScreen extends Component {
+export default class UploadPhotosScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,7 +35,7 @@ export default class DownloadPhotosScreen extends Component {
   }
 
   reloadPhoto() {
-    url = baseURL + "/downloads";
+    url = baseURL + "/uploadPhotoInfos";
     getFetchWithToken(url)
       .then(json => {
         this.setState({
@@ -62,7 +62,6 @@ export default class DownloadPhotosScreen extends Component {
     return (
       <ScrollView
         style={styles.container}
-        // 引っ張って更新
         refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
@@ -97,7 +96,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap"
   },
-  sample: {
+  sampel: {
     fontSize: 20,
     textAlign: "center",
     margin: 10

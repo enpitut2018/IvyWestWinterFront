@@ -1,19 +1,10 @@
 import React, { Component } from "react";
-import {
-  Dimensions,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View
-} from "react-native";
-import TouchablePhoto from "../../components/common/TouchablePhoto";
+import { RefreshControl, ScrollView, StyleSheet } from "react-native";
+import TimeLineCard from "../organisms/TimeLineCard";
 import { getFetchWithToken } from "../../models/fetchUtil";
 import { baseURL } from "../../libs/const";
 
-// 画面幅サイズを取得
-const { width } = Dimensions.get("window");
-
-export default class UploadPhotosScreen extends Component {
+class DownloadTimeLineScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,7 +26,7 @@ export default class UploadPhotosScreen extends Component {
   }
 
   reloadPhoto() {
-    url = baseURL + "/uploads";
+    url = baseURL + "/downloadPhotoInfos";
     getFetchWithToken(url)
       .then(json => {
         this.setState({
@@ -59,6 +50,8 @@ export default class UploadPhotosScreen extends Component {
   };
 
   render() {
+    const { photos } = this.state;
+
     return (
       <ScrollView
         style={styles.container}
@@ -69,18 +62,9 @@ export default class UploadPhotosScreen extends Component {
           />
         }
       >
-        <View style={styles.photoView}>
-          {this.state.photos.map((photo, index) => {
-            return (
-              <TouchablePhoto
-                key={photo.id}
-                photo={photo}
-                width={width / 3}
-                height={width / 3}
-              />
-            );
-          })}
-        </View>
+        {photos.map((photo, index) => {
+          return <TimeLineCard key={photo.id} photo={photo} />;
+        })}
       </ScrollView>
     );
   }
@@ -89,16 +73,26 @@ export default class UploadPhotosScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5FCFF"
+    flexDirection: "column",
+    backgroundColor: "#CCCCCC"
   },
-  photoView: {
-    flex: 3,
+  userInfo: {
+    flex: 1,
+    height: 50,
     flexDirection: "row",
-    flexWrap: "wrap"
+    alignItems: "center",
+    backgroundColor: "white"
   },
-  sampel: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
+  userAvatar: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    marginRight: 10,
+    marginLeft: 10
+  },
+  userId: {
+    fontSize: 15
   }
 });
+
+export default DownloadTimeLineScreen;

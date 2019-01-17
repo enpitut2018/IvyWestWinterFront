@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import {
   Button,
   Container,
@@ -9,7 +9,7 @@ import {
   Input,
   Text
 } from "native-base";
-import { signin } from "../../models/auth";
+import { signup } from "../../models/auth";
 import { Actions } from "react-native-router-flux";
 
 export default class SigninScreen extends Component {
@@ -22,13 +22,26 @@ export default class SigninScreen extends Component {
   }
 
   onPushSubmit() {
-    try {
-      signin(this.state.userId, this.state.pass).then(json => {
+    signup(this.state.userId, this.state.pass)
+      .then(json => {
+        Alert.alert(
+          "新規登録完了",
+          "まずはマイページで顔写真を登録しましょう！",
+          [
+            {
+              text: "OK"
+            }
+          ]
+        );
         Actions.reset("tab");
+      })
+      .catch(error => {
+        return Alert.alert(error.message, "やり直してください。", [
+          {
+            text: "OK"
+          }
+        ]);
       });
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   render() {
@@ -40,7 +53,7 @@ export default class SigninScreen extends Component {
               <Input
                 onChangeText={text => this.setState({ userId: text })}
                 value={this.state.userId}
-                placeholder="ユーザID"
+                placeholder="ユーザーID"
                 autoCapitalize="none"
               />
             </Item>
@@ -48,16 +61,18 @@ export default class SigninScreen extends Component {
               <Input
                 onChangeText={text => this.setState({ pass: text })}
                 value={this.state.pass}
+                secureTextEntry={true}
                 placeholder="パスワード"
                 autoCapitalize="none"
               />
             </Item>
             <Button
               block
+              info
               style={styles.button}
               onPress={() => this.onPushSubmit()}
             >
-              <Text>サインイン</Text>
+              <Text>新規登録する</Text>
             </Button>
           </Form>
         </Content>

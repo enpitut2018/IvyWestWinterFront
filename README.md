@@ -21,11 +21,32 @@ GoogleフォトやLINEアルバムとは違って
 
 * フロント
 
-  アプリ作成予定
+  Android(apkファイル)
+
+  ![Androidアプリ](./release/android_apk_qr.png)
+
+  その他、多数デモ機を用意しています。
+
 
 * API
 
-  https://ivy-west-winter-test.herokuapp.com
+  https://ivy-west-winter.herokuapp.com
+
+
+## リポジトリ
+
+* [アプリ](https://github.com/enpitut2018/IvyWestWinterFront)
+
+* [API](https://github.com/enpitut2018/IvyWestWinterServer)
+
+
+## その他チーム用URL
+
+* [プロダクトバックログ](https://github.com/enpitut2018/IvyWestWinterFront/projects/1)
+
+* [フロントwiki](https://github.com/enpitut2018/IvyWestWinterFront/wiki)
+
+* [サーバサイドwiki](https://github.com/enpitut2018/IvyWestWinterServer/wiki)
 
 
 ## 前提環境

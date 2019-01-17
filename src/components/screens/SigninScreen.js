@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import {
   Button,
   Container,
@@ -9,7 +9,7 @@ import {
   Input,
   Text
 } from "native-base";
-import { signup } from "../../models/auth";
+import { signin } from "../../models/auth";
 import { Actions } from "react-native-router-flux";
 
 export default class SigninScreen extends Component {
@@ -22,13 +22,21 @@ export default class SigninScreen extends Component {
   }
 
   onPushSubmit() {
-    try {
-      signup(this.state.userId, this.state.pass);
-      // TODO APIからTokenが返って来たら保存してtabに遷移させる
-      Actions.reset("auth");
-    } catch (error) {
-      console.error(error);
-    }
+    signin(this.state.userId, this.state.pass)
+      .then(json => {
+        Actions.reset("tab");
+      })
+      .catch(error => {
+        return Alert.alert(
+          error.message,
+          "ユーザーIDもしくはパスワードが間違っています。",
+          [
+            {
+              text: "OK"
+            }
+          ]
+        );
+      });
   }
 
   render() {
@@ -40,7 +48,7 @@ export default class SigninScreen extends Component {
               <Input
                 onChangeText={text => this.setState({ userId: text })}
                 value={this.state.userId}
-                placeholder="ユーザID"
+                placeholder="ユーザーID"
                 autoCapitalize="none"
               />
             </Item>
@@ -48,6 +56,7 @@ export default class SigninScreen extends Component {
               <Input
                 onChangeText={text => this.setState({ pass: text })}
                 value={this.state.pass}
+                secureTextEntry={true}
                 placeholder="パスワード"
                 autoCapitalize="none"
               />
@@ -57,7 +66,7 @@ export default class SigninScreen extends Component {
               style={styles.button}
               onPress={() => this.onPushSubmit()}
             >
-              <Text>サインアップ</Text>
+              <Text>サインイン</Text>
             </Button>
           </Form>
         </Content>
